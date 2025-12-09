@@ -1,0 +1,46 @@
+{% load static %}
+<nav class="w-full h-16 sticky top-0 bg-gray-900 border-b border-bleu-mystere shadow-lg z-50">
+    <div class="nav-container max-w-7xl mx-auto h-full flex justify-between items-center px-4 sm:px-6 lg:px-8">
+        
+      <div class="logo text-2xl font-bold text-gray-50">
+    <a href="#accueil" class="nav-icon" aria-label="visit homepage">
+        
+        <img 
+            src="{% static 'logo/logoOB.png' %}" 
+            alt="Logo de votre portfolio" 
+            class="h-8 md:h-10 w-auto inline-block"
+        >
+        </a>
+</div>
+        
+        <div class="link hidden md:flex space-x-8 items-center">
+            <a href="#accueil" class="text-gray-200 hover:text-bleu-vif relative group transition-colors duration-300">Home
+                <span class="absolute bottom-0 left-0 w-full h-0.5 bg-bleu-vif scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+            </a>
+            <a href="#about" class="text-gray-200 hover:text-bleu-vif relative group transition-colors duration-300">About
+                <span class="absolute bottom-0 left-0 w-full h-0.5 bg-bleu-vif scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+            </a>
+            <a href="#competences" class="text-gray-200 hover:text-bleu-vif relative group transition-colors duration-300">Compétences
+                <span class="absolute bottom-0 left-0 w-full h-0.5 bg-bleu-vif scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+            </a>
+            <a href="#projets" class="text-gray-200 hover:text-bleu-vif relative group transition-colors duration-300">Projets
+                <span class="absolute bottom-0 left-0 w-full h-0.5 bg-bleu-vif scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+            </a>
+            <a href="#contact" class="contact-btn bg-bleu-mystere text-white px-4 py-2 rounded-lg hover:bg-bleu-vif hover:text-gray-900 transition-colors duration-300">Contact</a>
+        </div>
+
+        <button id="menu-open-btn" class="md:hidden text-2xl text-gray-50 hover:text-bleu-vif">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </div>
+    
+    <div id="mobile-menu" class="hidden md:hidden absolute w-full bg-gray-800 shadow-xl border-t border-bleu-mystere transition-transform duration-300 ease-in-out">
+        <div class="flex flex-col p-4 space-y-2">
+            <a href="#accueil" class="py-2 px-3 text-gray-100 hover:bg-bleu-mystere rounded-md transition-colors duration-200">Home</a>
+            <a href="#about" class="py-2 px-3 text-gray-100 hover:bg-bleu-mystere rounded-md transition-colors duration-200">About</a>
+            <a href="#competences" class="py-2 px-3 text-gray-100 hover:bg-bleu-mystere rounded-md transition-colors duration-200">Compétences</a>
+            <a href="#projets" class="py-2 px-3 text-gray-100 hover:bg-bleu-mystere rounded-md transition-colors duration-200">Projets</a>
+            <a href="#contact" class="py-2 px-3 text-white bg-bleu-vif hover:bg-bleu-mystere rounded-md text-center transition-colors duration-200 mt-4">Contact</a>
+        </div>
+    </div>
+</nav>

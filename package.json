@@ -1,0 +1,11 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "tailwindcss -i ./static/css/tailwind.css -o ./static/css/style.css --watch",
+    "build": "tailwindcss -i ./static/css/tailwind.css -o ./static/css/style.css --minify"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.17"
+  }
+}

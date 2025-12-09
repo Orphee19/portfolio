@@ -1,0 +1,372 @@
+{% load static %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- 1. SÉLECTION DES ÉLÉMENTS CLÉS ---
+        const openBackendBtn = document.getElementById('open-backend-modal');
+        const openFrontendBtn = document.getElementById('open-frontend-modal');
+        // NOUVEAU : Sélecteur pour le bouton de la démo Ilogserveur
+        const openIlogBtn = document.getElementById('open-ilog-modal'); 
+        const closeBtn = document.getElementById('close-modal-btn');
+        const modal = document.getElementById('video-modal');
+        const modalContent = modal.querySelector('.max-w-4xl');
+        
+        // Éléments du lecteur vidéo
+        const videoPlayer = document.getElementById('project-video-player');
+        const modalTitle = document.getElementById('video-modal-title');
+        const playPauseBtn = document.getElementById('play-pause-btn');
+        const fullscreenBtn = document.getElementById('fullscreen-btn');
+        const progressBar = document.getElementById('progress-bar');
+        const progressContainer = document.getElementById('progress-container');
+        const currentTimeSpan = document.getElementById('current-time');
+        const durationSpan = document.getElementById('duration');
+        const muteBtn = document.getElementById('mute-btn');
+        const volumeSlider = document.getElementById('volume-slider');
+
+        // --- 2. FONCTIONS UTILITAIRES ---
+        function formatTime(seconds) {
+            if (isNaN(seconds) || seconds === Infinity) return '0:00';
+            const minutes = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+        
+        function updatePlayPauseIcon(isPlaying) {
+            playPauseBtn.innerHTML = isPlaying ? '<i class="fa-solid fa-pause"></i>' : '<i class="fa-solid fa-play"></i>';
+        }
+
+        // --- 3. LOGIQUE D'OUVERTURE/FERMETURE DE LA MODALE ---
+        
+        function openModal(button) {
+            const videoSrc = button.getAttribute('data-video-src');
+            // Utilise le texte du bouton ou une valeur par défaut pour le titre
+            const videoTitle = 'Démonstration : ' + (button.textContent.trim().replace('Voir la Démo', 'Ilogserveur') || 'Vidéo de Projet');
+            
+            // 1. Mise à jour du lecteur vidéo
+            videoPlayer.src = videoSrc;
+            videoPlayer.load(); 
+            
+            // 2. Mise à jour du titre et réinitialisation de la barre
+            modalTitle.textContent = videoTitle;
+            currentTimeSpan.textContent = formatTime(0);
+            durationSpan.textContent = formatTime(0);
+            progressBar.style.width = '0%';
+            updatePlayPauseIcon(false);
+
+            // 3. Affichage de la modale (avec animation)
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            setTimeout(() => {
+                modalContent.classList.remove('opacity-0', 'scale-95');
+                modalContent.classList.add('opacity-100', 'scale-100');
+                // Auto-play la vidéo après l'ouverture (si vous le souhaitez)
+                videoPlayer.play();
+            }, 10);
+        }
+
+        function closeModal() {
+            videoPlayer.pause();
+            
+            modalContent.classList.remove('opacity-100', 'scale-100');
+            modalContent.classList.add('opacity-0', 'scale-95');
+            
+            setTimeout(() => {
+                modal.classList.remove('flex');
+                modal.classList.add('hidden');
+                // Efface la source
+                videoPlayer.src = "";
+                videoPlayer.load();
+            }, 300); 
+        }
+
+        // --- 4. LOGIQUE DES CONTRÔLES VIDÉO ---
+        
+        if (videoPlayer) {
+            // Initialisation de la durée (se déclenche lorsque le navigateur charge les métadonnées)
+            videoPlayer.addEventListener('loadedmetadata', () => {
+                durationSpan.textContent = formatTime(videoPlayer.duration);
+            });
+
+            // Mise à jour de la barre de progression et du temps écoulé
+            videoPlayer.addEventListener('timeupdate', () => {
+                if (videoPlayer.duration > 0) {
+                    const percent = (videoPlayer.currentTime / videoPlayer.duration) * 100;
+                    progressBar.style.width = `${percent}%`;
+                    currentTimeSpan.textContent = formatTime(videoPlayer.currentTime);
+                }
+            });
+
+            // Clic sur la barre de progression pour naviguer
+            progressContainer.addEventListener('click', (e) => {
+                const rect = progressContainer.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                const width = rect.width;
+                
+                if (videoPlayer.duration > 0) {
+                    const newTime = (clickX / width) * videoPlayer.duration;
+                    videoPlayer.currentTime = newTime;
+                }
+            });
+
+            // Lecture/Pause
+            playPauseBtn.addEventListener('click', () => {
+                if (videoPlayer.paused || videoPlayer.ended) {
+                    videoPlayer.play();
+                } else {
+                    videoPlayer.pause();
+                }
+            });
+
+            videoPlayer.addEventListener('play', () => updatePlayPauseIcon(true));
+            videoPlayer.addEventListener('pause', () => updatePlayPauseIcon(false));
+            videoPlayer.addEventListener('ended', () => updatePlayPauseIcon(false));
+
+            // Contrôle du Volume
+            volumeSlider.addEventListener('input', () => {
+                videoPlayer.volume = volumeSlider.value;
+                if (videoPlayer.volume === 0) {
+                    muteBtn.innerHTML = '<i class="fa-solid fa-volume-mute"></i>';
+                } else {
+                    muteBtn.innerHTML = '<i class="fa-solid fa-volume-up"></i>';
+                }
+            });
+            
+            muteBtn.addEventListener('click', () => {
+                videoPlayer.muted = !videoPlayer.muted;
+                if (videoPlayer.muted) {
+                    muteBtn.innerHTML = '<i class="fa-solid fa-volume-mute"></i>';
+                } else {
+                    muteBtn.innerHTML = '<i class="fa-solid fa-volume-up"></i>';
+                }
+            });
+
+            // Plein Écran
+            fullscreenBtn.addEventListener('click', () => {
+                if (videoPlayer.requestFullscreen) {
+                    videoPlayer.requestFullscreen();
+                } else if (videoPlayer.mozRequestFullScreen) {
+                    videoPlayer.mozRequestFullScreen();
+                } else if (videoPlayer.webkitRequestFullscreen) {
+                    videoPlayer.webkitRequestFullscreen();
+                } else if (videoPlayer.msRequestFullscreen) {
+                    videoPlayer.msRequestFullscreen();
+                }
+            });
+        }
+
+        // --- 5. ÉVÉNEMENTS MODALE ---
+        if (openBackendBtn && openFrontendBtn && closeBtn && modal) {
+            openBackendBtn.addEventListener('click', () => openModal(openBackendBtn));
+            openFrontendBtn.addEventListener('click', () => openModal(openFrontendBtn));
+            
+            // NOUVEAU : Gestion du bouton Ilogserveur
+            if (openIlogBtn) {
+                openIlogBtn.addEventListener('click', () => openModal(openIlogBtn));
+            }
+            
+            closeBtn.addEventListener('click', closeModal);
+
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+            
+            document.addEventListener('keydown', function(e) {
+                if (e.key === "Escape" && modal.classList.contains('flex')) {
+                    closeModal();
+                }
+            });
+        }
+    // ... Votre code JavaScript existant ...
+
+    // --- NOUVEAU : Logique de Défilement Horizontal par Bouton ---
+    const projectsContainer = document.getElementById('projects-container');
+    const scrollLeftBtn = document.getElementById('scroll-left-btn');
+    const scrollRightBtn = document.getElementById('scroll-right-btn');
+
+    if (projectsContainer && scrollLeftBtn && scrollRightBtn) {
+        // Largeur de défilement (doit être légèrement supérieure à la largeur d'une carte)
+        const scrollAmount = 350; 
+        
+        // Fonction pour ajuster la visibilité/désactivation des flèches
+        function updateArrowVisibility() {
+            if (projectsContainer.scrollWidth <= projectsContainer.clientWidth) {
+                 // Si le contenu tient, on cache les flèches (pour plus de sécurité)
+                scrollLeftBtn.classList.add('hidden');
+                scrollRightBtn.classList.add('hidden');
+                return;
+            } else {
+                scrollLeftBtn.classList.remove('hidden');
+                scrollRightBtn.classList.remove('hidden');
+            }
+
+            // Flèche gauche
+            if (projectsContainer.scrollLeft > 5) { // 5px de marge pour être sûr de ne pas être à 0
+                scrollLeftBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            } else {
+                scrollLeftBtn.classList.add('opacity-50', 'cursor-not-allowed'); 
+            }
+            
+            // Flèche droite
+            // On compare le scroll actuel + la partie visible avec la largeur totale
+            if (projectsContainer.scrollLeft < projectsContainer.scrollWidth - projectsContainer.clientWidth - 5) {
+                scrollRightBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            } else {
+                scrollRightBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            }
+        }
+
+        // Événement Clic Droite
+        scrollRightBtn.addEventListener('click', () => {
+            projectsContainer.scrollBy({
+                left: scrollAmount,
+                behavior: 'smooth'
+            });
+        });
+
+        // Événement Clic Gauche
+        scrollLeftBtn.addEventListener('click', () => {
+            projectsContainer.scrollBy({
+                left: -scrollAmount,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Mettre à jour la visibilité au chargement et après le défilement
+        projectsContainer.addEventListener('scroll', updateArrowVisibility);
+        window.addEventListener('resize', updateArrowVisibility); 
+        
+        // Initialisation
+        updateArrowVisibility();
+    }
+    });
+</script>
+
+<section id="projets" class="py-20 bg-gray-800 border-t border-bleu-mystere">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-4xl font-extrabold text-center text-bleu-vif mb-12">Projets Récents</h2>
+        
+        <div class="relative"> 
+        
+            <div id="projects-container" class="flex space-x-8 pb-4 overflow-x-scroll snap-x snap-mandatory hide-scrollbar scroll-smooth">
+                
+               
+
+                <div class="flex-shrink-0 w-80 md:w-96 snap-start bg-gray-900 rounded-lg shadow-xl overflow-hidden transform hover:shadow-2xl hover:shadow-bleu-mystere/70 transition duration-300 hover:scale-[1.02]">
+                    <img src="{% static 'image/wazup.png' %}" alt="Aperçu du projet Backend Mobile" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-semibold text-gray-50 mb-3">Backend d'Application Mobile E-commerce</h3>
+                        
+                        <p class="text-gray-400 mb-4 h-24 overflow-y-auto custom-scrollbar pr-2">
+                            Développement complet de l'infrastructure côté serveur d'une application mobile e-commerce. J'ai conçu et maintenu l'intégralité de l'API RESTful en utilisant **Node.js, Express.js et JavaScript**.
+                            Mon rôle principal était de créer et de gérer les routes, d'implémenter la logique métier serveur (y compris l'authentification et les transactions) et d'assurer une communication fluide et sécurisée. Projet axé exclusivement sur le côté backend.
+                        </p>
+                        
+                        <div class="flex justify-between items-center">
+                            <a href="https://github.com/Orphee19/OrpheeNgouessi/tree/main/Wazup" target="_blank" class="text-bleu-vif hover:text-bleu-mystere font-medium">Voir le code (Backend) <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                            <a href="https://github.com/Orphee19/OrpheeNgouessi/tree/main/Wazup" target="_blank" class="text-2xl text-gray-400 hover:text-bleu-vif transition-colors duration-300" aria-label="Lien GitHub">
+                                <i class="fa-brands fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-shrink-0 w-80 md:w-96 snap-start bg-gray-900 rounded-lg shadow-xl overflow-hidden transform hover:shadow-2xl hover:shadow-bleu-mystere/70 transition duration-300 hover:scale-[1.02]">
+                    <img src="{% static 'image/Gestion.jpg' %}" alt="Aperçu du projet Ilogserveur" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-semibold text-gray-50 mb-3">API REST Gestion des Ressources (Ilogserveur)</h3>
+                        
+                        <p class="text-gray-400 mb-4 h-24 overflow-y-auto custom-scrollbar pr-2">
+                            Développement et connexion au deuxième serveur, l'**Ilogserveur**, spécialisé dans les systèmes de gestion d'entreprise (ERP). Ce serveur gère :
+                            <br>
+                            * **Gestion des Stocks et Inventaire** des structures.
+                            * **Ressources Humaines** (RH).
+                            * Architecture implémentée en **C++** (serveur) pour le traitement rapide des requêtes et un client de test en **Python**, démontrant la capacité à intégrer des systèmes complexes et hétérogènes.
+                        </p>
+                        
+                        <div class="flex justify-between items-center">
+                            <div class="flex space-x-4">
+                                <button id="open-ilog-modal" data-video-src="{% static 'video/ilog.mp4' %}" 
+                                        class="text-bleu-vif hover:text-bleu-mystere font-medium text-sm">
+                                    Voir la Démo <i class="fa-solid fa-play-circle ml-1"></i>
+                                </button>
+                                <a href="https://github.com/Orphee19/OrpheeNgouessi/tree/main/Ilog_Server" target="_blank" class="text-bleu-vif hover:text-bleu-mystere font-medium text-sm flex items-center">
+                                   Voir le code (Backend) <i class="fa-solid fa-arrow-right ml-1"></i>
+                                </a>
+                            </div>
+                            <a href="https://github.com/Orphee19/OrpheeNgouessi/tree/main/Ilog_Server" target="_blank" class="text-2xl text-gray-400 hover:text-bleu-vif transition-colors duration-300" aria-label="Lien GitHub">
+                                <i class="fa-brands fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                 <div class="flex-shrink-0 w-80 md:w-96 snap-start bg-gray-900 rounded-lg shadow-xl overflow-hidden transform hover:shadow-2xl hover:shadow-bleu-mystere/70 transition duration-300 hover:scale-[1.02]">
+                    <img src="{% static 'image/IA.png' %}" alt="Aperçu du projet E-learning" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-semibold text-gray-50 mb-3">Systèmes intelligent de gestion Énergétique</h3>
+                        
+                        <p class="text-gray-400 mb-4 h-24 overflow-y-auto custom-scrollbar pr-2">
+                            Développement d'une solution Fullstack complète (Flask/Python) visant à maximiser l'autoconsommation et à réduire les coûts énergétiques des installations solaires.
+                            Ce système intègre des algorithmes de Machine Learning (Back-end Python) pour une gestion prédictive des ressources,
+                            permettant d'anticiper les besoins énergétiques et les pics de production.
+                            J'ai conçu la logique métier pour garantir la fiabilité des données et des prédictions, 
+                            et construit l'interface utilisateur dynamique (HTML, JavaScript, CSS) offrant une visualisation claire et en temps réel du suivi des flux énergétiques. .
+                        </p>
+                        
+                        <div class="flex justify-between items-center">
+                            <div class="flex space-x-4">
+                                <button id="open-backend-modal" data-video-src="{% static 'video/back-end.mp4' %}" 
+                                        class="text-bleu-vif hover:text-bleu-mystere font-medium text-sm">
+                                    Démo Backend <i class="fa-solid fa-server ml-1"></i>
+                                </button>
+                                <button id="open-frontend-modal" data-video-src="{% static 'video/front-end.mp4' %}" 
+                                        class="text-bleu-vif hover:text-bleu-mystere font-medium text-sm">
+                                    Démo Frontend <i class="fa-solid fa-display ml-1"></i>
+                                </button>
+                            </div>
+
+                            <a href="https://github.com/votre_profil/projet_e_learning" target="_blank" class="text-2xl text-gray-400 hover:text-bleu-vif transition-colors duration-300" aria-label="Lien GitHub">
+                                <i class="fa-brands fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex-shrink-0 w-80 md:w-96 snap-start bg-gray-900 rounded-lg shadow-xl overflow-hidden transform hover:shadow-2xl hover:shadow-bleu-mystere/70 transition duration-300 hover:scale-[1.02]">
+                    <img src="{% static 'image/placeholder_projet3.jpg' %}" alt="Aperçu du projet Carflowser" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-semibold text-gray-50 mb-3">API REST Transport et Paiement (Carflowser)</h3>
+                        
+                        <p class="text-gray-400 mb-4 h-24 overflow-y-auto custom-scrollbar pr-2">
+                            Mise en place et développement d'un système de test complet intégrant une architecture de microservices via une **API REST**. Ce serveur est dédié à la gestion du trafic des taxis et bus, incluant :
+                            <br>
+                            * **Systèmes d'Abonnement et de Paiement** client.
+                            * **Suivi en temps réel** des véhicules.
+                            * Développement du client en **Python** et du traitement des requêtes API en **C++** côté serveur pour une haute performance.
+                        </p>
+                        
+                        <div class="flex justify-between items-center">
+                            <a href="https://github.com/Orphee19/OrpheeNgouessi/tree/main/Carflowserver" target="_blank" class="text-bleu-vif hover:text-bleu-mystere font-medium">Voir le code (Backend) <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                            <a href="https://github.com/Orphee19/OrpheeNgouessi/tree/main/Carflowserver" target="_blank" class="text-2xl text-gray-400 hover:text-bleu-vif transition-colors duration-300" aria-label="Lien GitHub">
+                                <i class="fa-brands fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            
+            <button id="scroll-left-btn" class="absolute left-0 top-1/2 -mt-8 transform -translate-x-1/2 bg-gray-700 p-3 rounded-full text-white text-xl shadow-lg hover:bg-bleu-vif transition duration-300 hidden md:block opacity-50 cursor-not-allowed">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            
+            <button id="scroll-right-btn" class="absolute right-0 top-1/2 -mt-8 transform translate-x-1/2 bg-gray-700 p-3 rounded-full text-white text-xl shadow-lg hover:bg-bleu-vif transition duration-300 hidden md:block">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+            
+        </div>
+    </div>
+</section>

@@ -1,0 +1,131 @@
+{% load static %}
+
+<section id="about" class="py-20 bg-gray-800 border-t border-bleu-mystere relative overflow-hidden">
+    
+    <div class="absolute top-0 left-0 w-96 h-96 bg-bleu-vif opacity-15 rounded-full filter blur-3xl transform -translate-x-1/3 -translate-y-1/3 pointer-events-none z-0"></div>
+
+    <div class="absolute bottom-0 right-0 w-80 h-80 bg-bleu-mystere opacity-15 rounded-full filter blur-3xl transform translate-x-1/3 translate-y-1/3 pointer-events-none z-0"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        <div class="flex flex-col md:flex-row items-start justify-between mb-10">
+            
+            <div class="w-full md:w-1/4 flex justify-center md:justify-start mb-8 md:mb-0">
+                <div id="photo-anim-container" class="w-48 h-48 relative overflow-hidden rounded-full shadow-2xl transition-transform duration-1000 ease-in-out">
+                    
+                    <img src="{% static 'image/dessin.png' %}" 
+                         alt="Effet visuel de profil" 
+                         class="absolute inset-0 w-full h-full object-cover 
+                                blur-lg scale-150 opacity-30">
+                    
+                    <div class="absolute inset-0 flex items-center justify-center p-4">
+                        <img src="{% static 'image/dessin.png' %}" 
+                             alt="Photo de profil" 
+                             class="w-full h-full object-cover rounded-full border-4 border-bleu-vif">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="w-full md:w-3/4 text-center md:text-left">
+                <h3 class="text-3xl text-white font-extrabold mb-4">Salut, je suis Orphée. Hâte de vous rencontrer.</h3>
+                <p class="text-gray-300 leading-relaxed">
+                    Depuis le début de mon parcours en tant que Développeur  il y a 3 ans, j'ai travaillé à distance pour des startups, conseillé des startups et collaboré avec des personnes talentueuses pour créer des produits numériques destinés à un usage professionnel et grand public. Je suis discrètement confiant, naturellement curieux, et je travaille constamment à améliorer mes compétences.
+                </p>
+            </div>
+        </div>
+        <div class="flex flex-col md:flex-row justify-center gap-8 bg-gray-900 p-10 rounded-lg shadow-2xl mt-10 border border-gray-700">
+            
+            <div class="flex-1 text-center p-4 md:border-r border-gray-700 md:pr-4">
+                <div class="flex justify-center mb-4">
+                    <i class="fa-solid fa-lightbulb text-3xl p-3 rounded-full bg-indigo-200 text-indigo-700 shadow-md"></i>
+                </div>
+                <h4 class="text-xl font-bold text-white mb-2">Concepteur</h4>
+                <p class="text-gray-400 mb-6 text-sm">
+                    J'apprécie la structure de contenu simple, les schémas de design épurés et les interactions réfléchies.
+                </p>
+                
+                <div class="text-left mt-6">
+                    <p class="font-semibold text-sm text-indigo-400 mb-2">Choix que j'aime concevoir :</p>
+                    <p class="text-gray-500 text-xs mb-4">UX, UI, Web, Applications, Logos</p>
+                    
+                    <p class="font-semibold text-sm text-indigo-400 mb-2">Outils de conception :</p>
+                    <ul class="text-gray-500 text-xs space-y-1">
+                        <li>Designer d'affinité</li>
+                        <li>Figma</li>
+                        <li>Style et papier</li>
+                         <li>UML conception (Lucidchart)</li>
+                        <li>Dessin</li>
+                        <li>Photoshop</li>
+                        <li>Canva</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="flex-1 text-center p-4 md:border-r border-gray-700">
+                <div class="flex justify-center mb-4">
+                    <i class="fa-solid fa-code text-3xl p-3 rounded-full bg-cyan-200 text-cyan-700 shadow-md"></i>
+                </div>
+                <h4 class="text-xl font-bold text-white mb-2">Développeur frontend & Backend </h4>
+                <p class="text-gray-400 mb-6 text-sm">
+                    J'aime coder à partir de zéro le rnedre fonctionel, et j'aime donner vie à des idées dans le navigateur.
+                </p>
+                
+                <div class="text-left mt-6">
+                    <p class="font-semibold text-sm text-cyan-400 mb-2">Langues que je parle :</p>
+                    <p class="text-gray-500 text-xs mb-4">HTML, JavaScript, Java, Python, CSS, Git, C++/C </p>
+                    
+                    <p class="font-semibold text-sm text-cyan-400 mb-2">Outils de développement :</p>
+                    <ul class="text-gray-500 text-xs space-y-1">
+                        <li>Qt Creator</li>
+                        <li>Django</li>
+                        <li>Tailwind</li>
+                        <li>Linux/Debian</li>
+                        <li>Github</li>
+                        <li>JupyterLab</li>
+                        <li>VS Code</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="flex-1 text-center p-4">
+                <div class="flex justify-center mb-4">
+                    <i class="fa-solid fa-user-graduate text-3xl p-3 rounded-full bg-purple-200 text-purple-700 shadow-md"></i>
+                </div>
+                <h4 class="text-xl font-bold text-white mb-2">Formateur</h4>
+                <p class="text-gray-400 mb-6 text-sm">
+                    Je tiens sincèrement aux gens et j'aime les aider à travailler sur leur métier.
+                </p>
+                
+                <div class="text-left mt-6">
+                    <p class="font-semibold text-sm text-purple-400 mb-2">Expériences dont je m'inspire :</p>
+                    <p class="text-gray-500 text-xs mb-4">UX/UI, Développeur Fullstack, Freelance</p>
+                    
+                    <p class="font-semibold text-sm text-purple-400 mb-2">Statistiques du mentor / Formateur :</p>
+                    <ul class="text-gray-500 text-xs space-y-1">
+                        <li>2+ ans d'expérience</li>
+                        <li>30+ cours courts</li>
+                        <li>4+ session formations</li>
+                        <li>4+ élèves / professionels</li>
+                        <li>58+ séances de Formation</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const container = document.getElementById('photo-anim-container');
+        
+        if (container) {
+            function togglePosition() {
+                container.classList.toggle('translate-y-4');
+            }
+
+            togglePosition();
+            setInterval(togglePosition, 3000); 
+        }
+    });
+</script>
+

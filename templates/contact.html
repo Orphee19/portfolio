@@ -1,0 +1,288 @@
+{% load static %}
+
+<div class="relative py-20 bg-gray-900">
+    <div class="absolute inset-0 bg-purple-800"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="max-w-4xl mx-auto -mt-20 md:-mt-10"> 
+            
+            <div id="div-anim-container" class="bg-gray-800 p-8 relative overflow-hidden rounded-xl shadow-2xl transition-transform duration-1000 ease-in-out flex flex-col md:flex-row items-center justify-between border border-gray-700">
+               
+                <div class="mb-6 md:mb-0 md:w-1/2">
+                    <h4 class="text-3xl font-extrabold text-white mb-2">Démarrez un projet</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Vous souhaitez travailler ensemble ? On devrait faire la queue pour discuter. J'offre le café.
+                    </p>
+                </div>
+                
+                <div class="flex-shrink-0">
+                    <a href="#" id="open-modal-btn" class="inline-flex items-center justify-center px-6 py-3 border border-bleu-vif text-base font-medium rounded-md shadow-sm text-white bg-transparent hover:bg-bleu-vif transition duration-300">
+                        <i class="fa-solid fa-arrow-right mr-2"></i> Allons-y
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ 
+
+<div id="collaboration-modal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        
+        <div class="fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+
+        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+        
+        <div class="inline-block align-bottom bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full p-6 md:p-8">
+            <div class="sm:flex sm:items-start">
+                <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
+                    <h3 class="text-3xl font-bold leading-6 text-bleu-vif mb-4" id="modal-title">
+                        Collaborons ! 🚀
+                    </h3>
+                    <p class="text-sm text-gray-400 mb-6">
+                        Remplissez ces quelques champs pour démarrer la discussion sur votre projet.
+                    </p>
+                    
+                    <form id="collaboration-form" method="POST" action="{% url 'soumettre_projet' %}" class="space-y-4">
+                        {% csrf_token %} 
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <input type="text" name="name" placeholder="Votre Nom Complet" required 
+                                class="w-full p-3 rounded-md bg-gray-700 border border-gray-600 text-gray-200 focus:ring-bleu-vif focus:border-bleu-vif">
+                            <input type="email" name="email" placeholder="Votre Email" required 
+                                class="w-full p-3 rounded-md bg-gray-700 border border-gray-600 text-gray-200 focus:ring-bleu-vif focus:border-bleu-vif">
+                        </div>
+
+                        <div>
+                            <select name="project_type" required
+                                class="w-full p-3 rounded-md bg-gray-700 border border-gray-600 text-gray-200 focus:ring-bleu-vif focus:border-bleu-vif">
+                                <option value="">-- Type de Projet --</option>
+                                <option value="backend">Développement Backend (API, Serveur)</option>
+                                <option value="fullstack">Projet Full-Stack (Complet)</option>
+                                <option value="consultation">Consultation / Mentorat</option>
+                                <option value="other">Autre</option>
+                            </select>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <select name="project_budget" required
+                                class="w-full p-3 rounded-md bg-gray-700 border border-gray-600 text-gray-200 focus:ring-bleu-vif focus:border-bleu-vif">
+                                <option value="">-- Budget Estimé --</option>
+                                <option value="1000-3000">150 000 Fcfa - 300 000 Fcfa</option>
+                                <option value="3000-7000">300 000 Fcfa - 700 000 Fcfa</option>
+                                <option value="7000+">700 000 Fcfa et plus</option>
+                                <option value="negotiable">Négociable / À discuter</option>
+                            </select>
+                            
+                            <select name="project_duration" required
+                                class="w-full p-3 rounded-md bg-gray-700 border border-gray-600 text-gray-200 focus:ring-bleu-vif focus:border-bleu-vif">
+                                <option value="">-- Durée du Projet --</option>
+                                <option value="2-4weeks">2 à 4 Semaines</option>
+                                <option value="4-8weeks">4 à 8 Semaines</option>
+                                <option value="2-3months">2 à 3 Mois</option>
+                                <option value="3months+">3 Mois et plus</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <textarea name="message" placeholder="Décrivez votre projet (besoins, défis, délais...)" rows="4" required 
+                                class="w-full p-3 rounded-md bg-gray-700 border border-gray-600 text-gray-200 focus:ring-bleu-vif focus:border-bleu-vif"></textarea>
+                        </div>
+                        
+                        <div id="modal-form-success" class="bg-green-600 text-white p-3 rounded-md hidden">Message envoyé avec succès !</div>
+                        <div id="modal-form-error" class="bg-red-600 text-white p-3 rounded-md hidden">Une erreur est survenue lors de l'envoi.</div>
+
+
+                        <div class="flex justify-end space-x-3 pt-4">
+                            <button type="button" id="close-modal-btn" class="px-5 py-2 text-sm font-medium rounded-md text-gray-300 bg-gray-700 hover:bg-gray-600 transition duration-300">
+                                Annuler
+                            </button>
+                            <button type="submit" id="modal-submit-btn" class="px-5 py-2 text-sm font-bold bg-bleu-vif text-noir-profondeur rounded-md shadow-lg hover:bg-bleu-mystere hover:text-white transition duration-300">
+                                Envoyer la demande
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<footer id="contact" class="py-20 bg-gray-900 border-t border-bleu-mystere">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-4xl font-extrabold text-center text-bleu-vif mb-12">Contactez-moi</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+            
+            <div class="md:col-span-2 bg-gray-800 p-8 rounded-lg shadow-xl">
+                <h3 class="text-2xl font-semibold text-gray-50 mb-6">Envoyer un message</h3>
+                <form id="contact-form" action="/contact-submit/" method="POST" class="space-y-4"> 
+                    
+                    {% csrf_token %} 
+                    
+                    <input type="text" id="contact-name" name="name" placeholder="Nom Complet" required class="w-full p-3 rounded-md bg-gray-700 border border-gray-600 text-gray-200 focus:ring-bleu-vif focus:border-bleu-vif">
+                    <p id="name-error" class="text-red-400 text-sm hidden">Veuillez entrer votre nom (au moins 2 lettres).</p>
+
+                    <input type="email" id="contact-email" name="email" placeholder="Adresse Email" required class="w-full p-3 rounded-md bg-gray-700 border border-gray-600 text-gray-200 focus:ring-bleu-vif focus:border-bleu-vif">
+                    <p id="email-error" class="text-red-400 text-sm hidden">Veuillez entrer une adresse email valide.</p>
+
+                    <textarea id="contact-message" name="message" placeholder="Votre Message" rows="4" required class="w-full p-3 rounded-md bg-gray-700 border border-gray-600 text-gray-200 focus:ring-bleu-vif focus:border-bleu-vif"></textarea>
+                    <p id="message-error" class="text-red-400 text-sm hidden">Veuillez entrer un message (au moins 10 caractères).</p>
+                    
+                    <div id="form-success" class="bg-green-600 text-white p-3 rounded-md hidden">Message envoyé avec succès !</div>
+
+                    <button type="submit" class="bg-bleu-mystere text-white font-medium px-6 py-3 rounded-md shadow-lg hover:bg-bleu-vif hover:text-gray-900 transition-colors duration-300">Envoyer</button>
+                </form>
+            </div>
+
+            <div class="md:col-span-1 space-y-8">
+                
+                <div class="space-y-4">
+                    <h3 class="text-2xl font-semibold text-gray-50 mb-4">Informations</h3>
+                    <div class="flex items-center space-x-3">
+                        <i class="fa-solid fa-envelope text-bleu-vif"></i>
+                        <span class="text-gray-300">orpheengouessi0810@gmail.com</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <i class="fa-solid fa-phone text-bleu-vif"></i>
+                        <span class="text-gray-300">+241 066080178</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <i class="fa-solid fa-location-dot text-bleu-vif"></i>
+                        <span class="text-gray-300">Libreville, Gabon</span>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-2xl font-semibold text-gray-50 mb-4">Réseaux Sociaux</h3>
+                    <div class="flex space-x-6"> 
+                        <a href="https://github.com/Orphee19/OrpheeNgouessi" class="text-3xl text-bleu-mystere hover:text-bleu-vif transition-colors duration-300"><i class="fa-brands fa-github"></i></a>
+                        <a href="https://www.linkedin.com/in/orphée-ngouessiab924325/" class="text-3xl text-bleu-mystere hover:text-bleu-vif transition-colors duration-300"><i class="fa-brands fa-linkedin"></i></a>
+                        <a href="https://web.facebook.com/strom19" class="text-3xl text-bleu-mystere hover:text-bleu-vif transition-colors duration-300"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="https://www.instagram.com" class="text-3xl text-bleu-mystere hover:text-bleu-vif transition-colors duration-300"><i class="fa-brands fa-instagram"></i></a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-12 pt-8 border-t border-gray-800">
+        <p class="text-gray-400 text-sm"> Living, learning, & leveling up one day at a time..</p>
+        <p class="text-gray-400 text-sm">fais à la main par moi &copy; 2025 Orphee NGOUESSI. Tous droits réservés.</p>
+    </div>
+</footer>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const container = document.getElementById('div-anim-container');
+        
+        if (container) {
+            function togglePosition() {
+                container.classList.toggle('translate-y-4');
+            }
+
+            togglePosition();
+            setInterval(togglePosition, 3000); 
+        }
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- 1. Logique de la Modale ---
+        const openModalBtn = document.getElementById('open-modal-btn');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const modal = document.getElementById('collaboration-modal');
+
+        if (openModalBtn && closeModalBtn && modal) {
+            openModalBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                modal.classList.remove('hidden');
+            });
+
+            closeModalBtn.addEventListener('click', function() {
+                modal.classList.add('hidden');
+            });
+            
+            // Fermer si on clique en dehors
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.classList.add('hidden');
+                }
+            });
+            
+            // Fermer avec la touche ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    modal.classList.add('hidden');
+                }
+            });
+        }
+        
+        // --- 2. Logique de Soumission Asynchrone (Modale) ---
+        const collabForm = document.getElementById('collaboration-form');
+        const modalSuccess = document.getElementById('modal-form-success');
+        const modalError = document.getElementById('modal-form-error');
+        const modalSubmitBtn = document.getElementById('modal-submit-btn');
+
+        if (collabForm) {
+            collabForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const formData = new FormData(collabForm);
+                const url = collabForm.action;
+                const csrfToken = formData.get('csrfmiddlewaretoken');
+
+                modalSuccess.classList.add('hidden');
+                modalError.classList.add('hidden');
+                modalSubmitBtn.disabled = true;
+                modalSubmitBtn.innerHTML = 'Envoi...';
+
+                fetch(url, {
+                    method: collabForm.method,
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': csrfToken 
+                    }
+                })
+                .then(response => {
+                    // Tente de lire JSON, même si le statut est une erreur
+                    return response.json().catch(() => {
+                        throw new Error('Erreur de réseau ou format de réponse invalide.');
+                    }).then(data => ({ status: response.status, body: data }));
+                })
+                .then(({ status, body }) => {
+                    if (status === 200 && body.status === 'success') {
+                        modalSuccess.classList.remove('hidden');
+                        collabForm.reset();
+                        // Fermer après un délai pour laisser le temps de lire le message
+                        setTimeout(() => modal.classList.add('hidden'), 3000);
+                    } else {
+                        throw new Error(body.message || "Erreur inconnue");
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                    modalError.innerHTML = `❌ Erreur : ${error.message || "Veuillez vérifier les champs et réessayer."}`;
+                    modalError.classList.remove('hidden');
+                })
+                .finally(() => {
+                    modalSubmitBtn.disabled = false;
+                    modalSubmitBtn.innerHTML = 'Envoyer la demande';
+                });
+            });
+        }
+
+        // --- 3. Logique de l'animation de translation (inchangée) ---
+        const container = document.getElementById('div-anim-container');
+        
+        if (container) {
+            function togglePosition() {
+                container.classList.toggle('translate-y-4');
+            }
+
+            togglePosition();
+            setInterval(togglePosition, 3000); 
+        }
+    });
+</script>

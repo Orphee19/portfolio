@@ -1,0 +1,48 @@
+{% load static %}
+
+<section id="accueil" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[calc(100vh-4rem)] pt-8 pb-16">
+    <div class="main-container flex flex-col-reverse md:flex-row items-start md:justify-start gap-12">
+        
+        <div class="content md:w-1/2 text-center md:text-left pt-12">
+            <h3 class="text-xl text-gray-400 mb-2">Hey, je suis</h3>
+            <h1 class="text-5xl font-extrabold text-gray-50 mb-4">
+                <span class="text-bleu-vif">Orphée Keneitch NGOUESSI</span>
+            </h1>
+            
+            <div class="police_decriture text-2xl mb-6 font-mono">
+                je suis 
+                <span id="typing-text" class="typing-container text-bleu-mystere font-semibold"></span>
+            </div>
+            
+            <div class="social-link flex justify-center md:justify-start space-x-6 mb-8"> 
+                <a href="https://github.com/Orphee19/OrpheeNgouessi" class="text-2xl text-bleu-mystere hover:text-bleu-vif transition-colors duration-300"><i class="fa-brands fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/orphée-ngouessiab924325/" class="text-2xl text-bleu-mystere hover:text-bleu-vif transition-colors duration-300"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="https://web.facebook.com/strom19" class="text-2xl text-bleu-mystere hover:text-bleu-vif transition-colors duration-300"><i class="fa-brands fa-facebook"></i></a>
+                <a href="https://www.instagram.com" class="text-2xl text-bleu-mystere hover:text-bleu-vif transition-colors duration-300"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+            
+            <div class="flex flex-col sm:flex-row justify-center md:justify-start gap-4 mb-20">
+                
+                <div class="btn">
+                    <a href="{% static 'docs/cv_ng_Pro.pdf' %}" 
+                       id="download-cv-link" 
+                       download="Orphée_NGOUESSI_CV.pdf"
+                       class="bg-bleu-mystere text-white font-medium px-8 py-3 rounded-full shadow-lg hover:bg-bleu-vif hover:text-gray-900 transition-colors duration-300 inline-block">
+                        Télécharger CV
+                    </a>
+                </div>
+
+                <div class="btn2">
+                    <a href="#projets" 
+                       class="bg-bleu-mystere text-white font-medium px-8 py-3 rounded-full shadow-lg hover:bg-bleu-vif hover:text-gray-900 transition-colors duration-300 inline-block">
+                        Voir mes Projets
+                    </a>
+                </div>
+            </div>
+            </div>
+
+        <div class="image_profil md:w-1/2 flex justify-center pt-12 md:justify-end">
+            <img src="{% static 'image/moi.png' %}" alt="Photo de profil" class="w-full max-w-xs md:max-w-md h-auto object-cover rounded-full shadow-2xl border-4 border-bleu-mystere"> 
+        </div>
+    </div>
+</section>
