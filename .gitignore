@@ -1,0 +1,13 @@
+# Django stuff
+*.log
+*.pot
+*.pyc
+__pycache__/
+
+# Virtual Environment
+venv/
+env/
+
+# Database and secrets
+db.sqlite3
+.env
