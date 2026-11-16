@@ -1,13 +1,28 @@
-# Django stuff
+# Python / Django
 *.log
 *.pot
 *.pyc
 __pycache__/
-
-# Virtual Environment
 venv/
 env/
-
-# Database and secrets
 db.sqlite3
 .env
+*.pem
+
+# Node
+node_modules/
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Cloudflare
+.wrangler/
+.dev.vars
+
+# Secrets
+**/secrets.*
+**/*secret*
+!.gitkeep
