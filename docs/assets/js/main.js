@@ -108,9 +108,11 @@
     }
   });
 
-  /* ---- Projects infinite horizontal marquee ---- */
+  /* ---- Projects infinite horizontal scroll + arrows ---- */
   const projectsTrack = $("#projects-container");
   const projectsMarquee = $("#projects-marquee");
+  const projectsPrev = $("#projects-prev");
+  const projectsNext = $("#projects-next");
   if (projectsTrack && projectsMarquee) {
     const originals = Array.from(projectsTrack.children);
     if (originals.length) {
@@ -121,11 +123,6 @@
         projectsTrack.appendChild(clone);
       });
 
-      // ~38s minimum, slower when more cards
-      const seconds = Math.max(38, originals.length * 5);
-      projectsTrack.style.setProperty("--marquee-duration", seconds + "s");
-
-      // Clones don't keep listeners — bind demos on the duplicated half only
       Array.from(projectsTrack.children)
         .slice(originals.length)
         .forEach((card) => {
@@ -134,25 +131,106 @@
           });
         });
 
-      // Pause while touching (mobile)
-      let touchTimer;
+      let paused = false;
+      let resumeTimer;
+      let halfWidth = 0;
+      let looping = false;
+
+      const measure = () => {
+        halfWidth = projectsTrack.scrollWidth / 2;
+      };
+
+      const pause = (ms = 2200) => {
+        paused = true;
+        clearTimeout(resumeTimer);
+        resumeTimer = setTimeout(() => {
+          paused = false;
+        }, ms);
+      };
+
+      const stepSize = () => {
+        const card = projectsTrack.querySelector(".project-card");
+        if (!card) return 280;
+        const styles = getComputedStyle(projectsTrack);
+        const gap = parseFloat(styles.gap) || 16;
+        return card.getBoundingClientRect().width + gap;
+      };
+
+      const normalizeLoop = () => {
+        if (!halfWidth || looping) return;
+        if (projectsMarquee.scrollLeft >= halfWidth) {
+          looping = true;
+          projectsMarquee.scrollLeft -= halfWidth;
+          looping = false;
+        } else if (projectsMarquee.scrollLeft <= 0) {
+          looping = true;
+          projectsMarquee.scrollLeft += halfWidth;
+          looping = false;
+        }
+      };
+
+      const jumpBy = (dir) => {
+        pause(2800);
+        measure();
+        if (projectsMarquee.scrollLeft <= 4 && dir < 0) {
+          projectsMarquee.scrollLeft += halfWidth;
+        }
+        projectsMarquee.scrollBy({ left: dir * stepSize(), behavior: "smooth" });
+      };
+
+      measure();
+      // Start mid-set so prev works immediately
+      projectsMarquee.scrollLeft = 2;
+      requestAnimationFrame(measure);
+
+      let lastTs = 0;
+      const speed = 0.45; // px per ms ≈ continuous soft scroll
+      const tick = (ts) => {
+        if (!lastTs) lastTs = ts;
+        const dt = Math.min(32, ts - lastTs);
+        lastTs = ts;
+        if (!paused && !document.hidden && halfWidth > 0) {
+          projectsMarquee.scrollLeft += speed * dt;
+          normalizeLoop();
+        }
+        requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+
+      projectsMarquee.addEventListener("scroll", normalizeLoop, { passive: true });
+      projectsMarquee.addEventListener("mouseenter", () => {
+        paused = true;
+        clearTimeout(resumeTimer);
+      });
+      projectsMarquee.addEventListener("mouseleave", () => pause(400));
+      projectsMarquee.addEventListener("focusin", () => {
+        paused = true;
+        clearTimeout(resumeTimer);
+      });
+      projectsMarquee.addEventListener("focusout", () => pause(800));
       projectsMarquee.addEventListener(
         "touchstart",
         () => {
-          projectsTrack.style.animationPlayState = "paused";
-          clearTimeout(touchTimer);
+          paused = true;
+          clearTimeout(resumeTimer);
         },
         { passive: true }
       );
       projectsMarquee.addEventListener(
         "touchend",
-        () => {
-          touchTimer = setTimeout(() => {
-            projectsTrack.style.animationPlayState = "";
-          }, 1800);
-        },
+        () => pause(2000),
         { passive: true }
       );
+      projectsMarquee.addEventListener("wheel", () => pause(1800), { passive: true });
+
+      if (projectsPrev) projectsPrev.addEventListener("click", () => jumpBy(-1));
+      if (projectsNext) projectsNext.addEventListener("click", () => jumpBy(1));
+
+      window.addEventListener("resize", () => {
+        const ratio = halfWidth ? projectsMarquee.scrollLeft / halfWidth : 0;
+        measure();
+        projectsMarquee.scrollLeft = ratio * halfWidth;
+      });
     }
   }
 
