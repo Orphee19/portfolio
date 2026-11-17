@@ -5,28 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Portfolio d'Orphée Keneitch NGOUESSI — Développeur Full-Stack à Libreville (Gabon). Nexxus Gabon, APIs, CRM, sécurité applicative." />
   <meta name="theme-color" content="#1F2937" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.tailwindcss.com https://unpkg.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://unpkg.com https://fonts.googleapis.com; font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://formsubmit.co https://*.workers.dev; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://formsubmit.co https://*.workers.dev;" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>Orphée NGOUESSI — Développeur Full-Stack</title>
   <link rel="icon" href="assets/logo/logoOB.png" type="image/png" />
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            "noir-profondeur": "#1F2937",
-            "bleu-mystere": "#3B5998",
-            "bleu-vif": "#A1C4D6",
-          },
-          fontFamily: {
-            display: ['"Syne"', "system-ui", "sans-serif"],
-            body: ['"DM Sans"', "system-ui", "sans-serif"],
-          },
-        },
-      },
-    };
-  </script>
+  <script src="assets/js/tailwind-config.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
@@ -99,30 +82,35 @@
     </div>
   </nav>
 
-  <!-- HERO -->
-  <section id="accueil" class="hero-glow">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[calc(100vh-4rem)] pt-8 pb-16 flex flex-col-reverse md:flex-row items-center gap-12">
-      <div class="md:w-1/2 text-center md:text-left pt-8" data-aos="fade-right">
-        <p class="text-bleu-vif text-sm tracking-widest uppercase mb-3">Libreville · Gabon</p>
+  <!-- HERO (accueil d'origine) -->
+  <section id="accueil" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[calc(100vh-4rem)] pt-8 pb-16">
+    <div class="main-container flex flex-col-reverse md:flex-row items-start md:justify-start gap-12">
+      <div class="content md:w-1/2 text-center md:text-left pt-12">
         <h3 class="text-xl text-gray-400 mb-2">Hey, je suis</h3>
-        <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-50 mb-4 font-display">
+        <h1 class="text-5xl font-extrabold text-gray-50 mb-4">
           <span class="text-bleu-vif">Orphée Keneitch NGOUESSI</span>
         </h1>
-        <p class="text-gray-400 mb-4">Développeur Full-Stack chez <span class="text-white font-medium">Nexxus Gabon</span></p>
-        <div class="text-2xl mb-6 font-mono">
-          je suis <span id="typing-text" class="typing-container text-bleu-mystere font-semibold"></span>
+        <div class="police_decriture text-2xl mb-6 font-mono">
+          je suis
+          <span id="typing-text" class="typing-container text-bleu-mystere font-semibold"></span>
         </div>
-        <div class="flex justify-center md:justify-start space-x-6 mb-8">
-          <a href="https://github.com/Orphee19" target="_blank" rel="noopener noreferrer" class="text-2xl text-bleu-mystere hover:text-bleu-vif" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
-          <a href="https://www.linkedin.com/in/orphée-ngouessiab924325/" target="_blank" rel="noopener noreferrer" class="text-2xl text-bleu-mystere hover:text-bleu-vif" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+        <div class="social-link flex justify-center md:justify-start space-x-6 mb-8">
+          <a href="https://github.com/Orphee19/OrpheeNgouessi" target="_blank" rel="noopener noreferrer" class="text-2xl text-bleu-mystere hover:text-bleu-vif transition-colors duration-300" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+          <a href="https://www.linkedin.com/in/orphée-ngouessiab924325/" target="_blank" rel="noopener noreferrer" class="text-2xl text-bleu-mystere hover:text-bleu-vif transition-colors duration-300" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+          <a href="https://web.facebook.com/strom19" target="_blank" rel="noopener noreferrer" class="text-2xl text-bleu-mystere hover:text-bleu-vif transition-colors duration-300" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+          <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" class="text-2xl text-bleu-mystere hover:text-bleu-vif transition-colors duration-300" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
         </div>
-        <div class="flex flex-col sm:flex-row justify-center md:justify-start gap-4">
-          <a href="assets/docs/cv_ng_Pro.pdf" download="Orphee_NGOUESSI_CV.pdf" class="bg-bleu-mystere text-white font-medium px-8 py-3 rounded-full shadow-lg hover:bg-bleu-vif hover:text-gray-900 transition-colors inline-block">Télécharger CV</a>
-          <a href="#projets" class="border border-bleu-vif text-bleu-vif font-medium px-8 py-3 rounded-full hover:bg-bleu-vif hover:text-gray-900 transition-colors inline-block">Voir mes projets</a>
+        <div class="flex flex-col sm:flex-row justify-center md:justify-start gap-4 mb-20">
+          <div class="btn">
+            <a href="assets/docs/cv_ng_Pro.pdf" id="download-cv-link" download="Orphée_NGOUESSI_CV.pdf" class="bg-bleu-mystere text-white font-medium px-8 py-3 rounded-full shadow-lg hover:bg-bleu-vif hover:text-gray-900 transition-colors duration-300 inline-block">Télécharger CV</a>
+          </div>
+          <div class="btn2">
+            <a href="#projets" class="bg-bleu-mystere text-white font-medium px-8 py-3 rounded-full shadow-lg hover:bg-bleu-vif hover:text-gray-900 transition-colors duration-300 inline-block">Voir mes Projets</a>
+          </div>
         </div>
       </div>
-      <div class="md:w-1/2 flex justify-center md:justify-end pt-8" data-aos="fade-left">
-        <img src="assets/image/moi.png" alt="Photo de Orphée NGOUESSI" class="w-full max-w-xs md:max-w-md h-auto object-cover rounded-full shadow-2xl border-4 border-bleu-mystere" width="400" height="400" />
+      <div class="image_profil md:w-1/2 flex justify-center pt-12 md:justify-end">
+        <img src="assets/image/moi.png" alt="Photo de profil" class="w-full max-w-xs md:max-w-md h-auto object-cover rounded-full shadow-2xl border-4 border-bleu-mystere" />
       </div>
     </div>
   </section>
@@ -502,6 +490,6 @@
   <script src="assets/js/config.js"></script>
   <script src="assets/js/main.js"></script>
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-  <script>AOS.init({ duration: 700, once: true, offset: 40 });</script>
+  <script src="assets/js/aos-init.js"></script>
 </body>
 </html>

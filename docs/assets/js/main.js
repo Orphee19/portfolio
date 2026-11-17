@@ -26,10 +26,11 @@
   /* ---- Typing effect ---- */
   const typingEl = $("#typing-text");
   const roles = [
-    "Développeur Full-Stack",
-    "Backend & APIs",
-    "Sécurité applicative",
-    "Formateur",
+    "Développeur full-stack Python",
+    "Ingénieur Génie Logiciel",
+    "Développeur backend C/C++",
+    "Formateur programation",
+    "Infographe designeur Photoshop/Canva",
   ];
   if (typingEl) {
     let roleIndex = 0;
