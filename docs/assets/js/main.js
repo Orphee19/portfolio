@@ -125,12 +125,14 @@
       const seconds = Math.max(38, originals.length * 5);
       projectsTrack.style.setProperty("--marquee-duration", seconds + "s");
 
-      // Re-bind demo buttons on clones
-      $all("[data-video-src]", projectsTrack).forEach((btn) => {
-        if (btn.dataset.marqueeBound) return;
-        btn.dataset.marqueeBound = "1";
-        btn.addEventListener("click", () => openVideoModal(btn));
-      });
+      // Clones don't keep listeners — bind demos on the duplicated half only
+      Array.from(projectsTrack.children)
+        .slice(originals.length)
+        .forEach((card) => {
+          $all("[data-video-src]", card).forEach((btn) => {
+            btn.addEventListener("click", () => openVideoModal(btn));
+          });
+        });
 
       // Pause while touching (mobile)
       let touchTimer;

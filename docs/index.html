@@ -141,6 +141,7 @@
       display: flex;
       width: max-content;
       gap: 1.5rem;
+      padding-block: 0.5rem;
       will-change: transform;
       animation: projects-marquee-scroll var(--marquee-duration, 55s) linear infinite;
     }
@@ -525,10 +526,12 @@
           Approche pro : rôle + impact + stack. Missions Nexxus &amp; i2Tech : description uniquement
           (pas d’image client, pas de lien GitHub entreprise / freelance sans accord).
         </p>
-        <p class="text-center text-gray-500 text-xs mb-8">Défilement continu — survole une carte pour pause.</p>
+        <p class="text-center text-gray-500 text-xs mb-8">Défilement horizontal continu en boucle — survole une carte pour mettre en pause.</p>
+      </div>
+    </div>
 
-        <div class="projects-marquee" id="projects-marquee" aria-label="Galerie de projets en défilement">
-          <div id="projects-container" class="projects-marquee-track">
+        <div class="projects-marquee w-full mt-2" id="projects-marquee" aria-label="Galerie de projets en défilement">
+          <div id="projects-container" class="projects-marquee-track pl-4 md:pl-8">
 
             <!-- TALI -->
             <article class="project-card flex-shrink-0 w-80 md:w-96 snap-start bg-gray-800/90 rounded-xl border border-emerald-800/50 overflow-hidden backdrop-blur-sm">
@@ -819,8 +822,6 @@
 
           </div>
         </div>
-      </div>
-    </div>
   </section>
 
   <!-- CTA collab -->
