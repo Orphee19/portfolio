@@ -131,6 +131,27 @@
       transform: translateY(-6px);
       box-shadow: 0 18px 40px rgba(59, 89, 152, 0.28);
     }
+    /* Défilement horizontal continu (boucle) */
+    .projects-marquee {
+      overflow: hidden;
+      mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+    }
+    .projects-marquee-track {
+      display: flex;
+      width: max-content;
+      gap: 1.5rem;
+      will-change: transform;
+      animation: projects-marquee-scroll var(--marquee-duration, 55s) linear infinite;
+    }
+    .projects-marquee:hover .projects-marquee-track,
+    .projects-marquee:focus-within .projects-marquee-track {
+      animation-play-state: paused;
+    }
+    @keyframes projects-marquee-scroll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
     .project-visual { position: relative; overflow: hidden; }
     .project-visual::after {
       content: "";
@@ -232,6 +253,7 @@
       .projects-stage::after,
       .typing-container { animation: none !important; }
       .project-card:hover { transform: none; }
+      .projects-marquee-track { animation: none !important; }
     }
   </style>
 </head>
@@ -367,7 +389,7 @@
     <div class="ambient-orb orb-c opacity-40" aria-hidden="true"></div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <h2 class="text-4xl font-extrabold text-center text-bleu-vif mb-3 font-display" data-aos="fade-up">Expérience</h2>
-      <p class="text-center text-gray-400 mb-14 max-w-2xl mx-auto text-sm" data-aos="fade-up">Parcours en timeline — rôle, impact, stack. Sans secrets ni liens code entreprise.</p>
+      <p class="text-center text-gray-400 mb-8 max-w-2xl mx-auto text-sm" data-aos="fade-up">Parcours en timeline — rôle, impact, stack. Sans secrets ni liens code entreprise.</p>
 
       <div class="timeline">
         <article class="timeline-item" data-aos="fade-up">
@@ -503,10 +525,10 @@
           Approche pro : rôle + impact + stack. Missions Nexxus &amp; i2Tech : description uniquement
           (pas d’image client, pas de lien GitHub entreprise / freelance sans accord).
         </p>
-        <p class="text-center text-gray-500 text-xs mb-12">Liens GitHub = projets personnels publics uniquement.</p>
+        <p class="text-center text-gray-500 text-xs mb-8">Défilement continu — survole une carte pour pause.</p>
 
-        <div class="relative">
-          <div id="projects-container" class="flex space-x-6 pb-4 overflow-x-auto snap-x snap-mandatory hide-scrollbar scroll-smooth">
+        <div class="projects-marquee" id="projects-marquee" aria-label="Galerie de projets en défilement">
+          <div id="projects-container" class="projects-marquee-track">
 
             <!-- TALI -->
             <article class="project-card flex-shrink-0 w-80 md:w-96 snap-start bg-gray-800/90 rounded-xl border border-emerald-800/50 overflow-hidden backdrop-blur-sm">
@@ -796,8 +818,6 @@
             </article>
 
           </div>
-          <button id="scroll-left-btn" type="button" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 bg-gray-700/90 p-3 rounded-full text-white shadow-lg hover:bg-bleu-vif hidden md:block z-20" aria-label="Projets précédents"><i class="fa-solid fa-chevron-left"></i></button>
-          <button id="scroll-right-btn" type="button" class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 bg-gray-700/90 p-3 rounded-full text-white shadow-lg hover:bg-bleu-vif hidden md:block z-20" aria-label="Projets suivants"><i class="fa-solid fa-chevron-right"></i></button>
         </div>
       </div>
     </div>

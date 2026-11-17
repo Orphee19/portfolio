@@ -108,36 +108,50 @@
     }
   });
 
-  /* ---- Projects scroll ---- */
-  const projectsContainer = $("#projects-container");
-  const scrollLeftBtn = $("#scroll-left-btn");
-  const scrollRightBtn = $("#scroll-right-btn");
-  if (projectsContainer && scrollLeftBtn && scrollRightBtn) {
-    const amount = 360;
-    function updateArrows() {
-      const max = projectsContainer.scrollWidth - projectsContainer.clientWidth;
-      if (max <= 5) {
-        scrollLeftBtn.classList.add("hidden");
-        scrollRightBtn.classList.add("hidden");
-        return;
-      }
-      scrollLeftBtn.classList.remove("hidden");
-      scrollRightBtn.classList.remove("hidden");
-      scrollLeftBtn.classList.toggle("opacity-50", projectsContainer.scrollLeft <= 5);
-      scrollRightBtn.classList.toggle(
-        "opacity-50",
-        projectsContainer.scrollLeft >= max - 5
+  /* ---- Projects infinite horizontal marquee ---- */
+  const projectsTrack = $("#projects-container");
+  const projectsMarquee = $("#projects-marquee");
+  if (projectsTrack && projectsMarquee) {
+    const originals = Array.from(projectsTrack.children);
+    if (originals.length) {
+      originals.forEach((card) => {
+        const clone = card.cloneNode(true);
+        clone.setAttribute("aria-hidden", "true");
+        clone.querySelectorAll("[id]").forEach((el) => el.removeAttribute("id"));
+        projectsTrack.appendChild(clone);
+      });
+
+      // ~38s minimum, slower when more cards
+      const seconds = Math.max(38, originals.length * 5);
+      projectsTrack.style.setProperty("--marquee-duration", seconds + "s");
+
+      // Re-bind demo buttons on clones
+      $all("[data-video-src]", projectsTrack).forEach((btn) => {
+        if (btn.dataset.marqueeBound) return;
+        btn.dataset.marqueeBound = "1";
+        btn.addEventListener("click", () => openVideoModal(btn));
+      });
+
+      // Pause while touching (mobile)
+      let touchTimer;
+      projectsMarquee.addEventListener(
+        "touchstart",
+        () => {
+          projectsTrack.style.animationPlayState = "paused";
+          clearTimeout(touchTimer);
+        },
+        { passive: true }
+      );
+      projectsMarquee.addEventListener(
+        "touchend",
+        () => {
+          touchTimer = setTimeout(() => {
+            projectsTrack.style.animationPlayState = "";
+          }, 1800);
+        },
+        { passive: true }
       );
     }
-    scrollRightBtn.addEventListener("click", () =>
-      projectsContainer.scrollBy({ left: amount, behavior: "smooth" })
-    );
-    scrollLeftBtn.addEventListener("click", () =>
-      projectsContainer.scrollBy({ left: -amount, behavior: "smooth" })
-    );
-    projectsContainer.addEventListener("scroll", updateArrows);
-    window.addEventListener("resize", updateArrows);
-    updateArrows();
   }
 
   /* ---- Collaboration modal ---- */
