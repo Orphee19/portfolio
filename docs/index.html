@@ -149,6 +149,97 @@
       height: 1px;
       background: linear-gradient(90deg, transparent, rgba(161, 196, 214, 0.35), transparent);
     }
+    /* Timeline expérience */
+    .timeline {
+      position: relative;
+      max-width: 48rem;
+      margin: 0 auto;
+    }
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 0.85rem;
+      top: 0.5rem;
+      bottom: 0.5rem;
+      width: 2px;
+      background: linear-gradient(180deg, #3B5998, #A1C4D6, transparent);
+    }
+    @media (min-width: 768px) {
+      .timeline::before { left: 50%; transform: translateX(-1px); }
+    }
+    .timeline-item {
+      position: relative;
+      padding-left: 2.75rem;
+      margin-bottom: 2rem;
+    }
+    @media (min-width: 768px) {
+      .timeline-item { width: 50%; padding-left: 0; padding-right: 2.5rem; }
+      .timeline-item:nth-child(even) {
+        margin-left: 50%;
+        padding-right: 0;
+        padding-left: 2.5rem;
+      }
+    }
+    .timeline-dot {
+      position: absolute;
+      left: 0.4rem;
+      top: 1.35rem;
+      width: 1rem;
+      height: 1rem;
+      border-radius: 9999px;
+      background: #A1C4D6;
+      border: 3px solid #3B5998;
+      box-shadow: 0 0 0 4px rgba(59, 89, 152, 0.25);
+    }
+    @media (min-width: 768px) {
+      .timeline-item .timeline-dot { left: auto; right: -0.55rem; }
+      .timeline-item:nth-child(even) .timeline-dot { left: -0.55rem; right: auto; }
+    }
+    .exp-card {
+      background: linear-gradient(145deg, rgba(31, 41, 55, 0.95), rgba(17, 24, 39, 0.9));
+      border: 1px solid rgba(59, 89, 152, 0.45);
+      border-radius: 1rem;
+      padding: 1.35rem 1.5rem;
+      backdrop-filter: blur(8px);
+      transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .exp-card:hover {
+      border-color: rgba(161, 196, 214, 0.55);
+      transform: translateY(-3px);
+      box-shadow: 0 14px 32px rgba(59, 89, 152, 0.22);
+    }
+    /* Stack / méthodo en bas de carte */
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.85rem;
+      padding-top: 0.85rem;
+      border-top: 1px solid rgba(75, 85, 99, 0.7);
+    }
+    .tech-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      padding: 0.28rem 0.55rem;
+      border-radius: 9999px;
+      background: rgba(17, 24, 39, 0.85);
+      border: 1px solid rgba(75, 85, 99, 0.8);
+      color: #e5e7eb;
+    }
+    .tech-chip i { font-size: 0.85rem; }
+    .method-label {
+      width: 100%;
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #9ca3af;
+      margin-top: 0.35rem;
+      margin-bottom: -0.1rem;
+    }
     @media (prefers-reduced-motion: reduce) {
       .ambient-orb,
       .projects-stage::before,
@@ -289,50 +380,82 @@
     <div class="ambient-orb orb-a opacity-50" aria-hidden="true"></div>
     <div class="ambient-orb orb-c opacity-40" aria-hidden="true"></div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-4xl font-extrabold text-center text-bleu-vif mb-4 font-display" data-aos="fade-up">Expérience</h2>
-      <p class="text-center text-gray-400 mb-12 max-w-2xl mx-auto text-sm">Missions professionnelles formulées sans détails confidentiels ni secrets clients.</p>
+      <h2 class="text-4xl font-extrabold text-center text-bleu-vif mb-3 font-display" data-aos="fade-up">Expérience</h2>
+      <p class="text-center text-gray-400 mb-14 max-w-2xl mx-auto text-sm" data-aos="fade-up">Parcours en timeline — rôle, impact, stack. Sans secrets ni liens code entreprise.</p>
 
-      <div class="space-y-6 max-w-3xl mx-auto">
-        <article class="bg-gray-800 border border-gray-700 rounded-xl p-6" data-aos="fade-up">
-          <div class="flex flex-wrap items-baseline justify-between gap-2 mb-2">
-            <h3 class="text-xl font-bold text-white">Développeur Full-Stack — Nexxus Gabon</h3>
-            <span class="text-sm text-bleu-vif">2025 — présent</span>
+      <div class="timeline">
+        <article class="timeline-item" data-aos="fade-up">
+          <span class="timeline-dot" aria-hidden="true"></span>
+          <div class="exp-card">
+            <p class="text-xs uppercase tracking-[0.16em] text-bleu-vif mb-2">2025 — présent</p>
+            <h3 class="text-xl font-bold text-white mb-1 font-display">Développeur Full-Stack</h3>
+            <p class="text-sm text-bleu-vif/90 mb-3">Nexxus Gabon / Nexxus Conseil</p>
+            <p class="text-gray-400 text-sm mb-4">Produits numériques pour le marché gabonais : CRM, billetterie voyage, outils entreprises, qualité &amp; sécu.</p>
+            <ul class="space-y-2 text-sm text-gray-300">
+              <li class="flex gap-2"><span class="text-bleu-vif mt-0.5">▹</span><span><strong class="text-white">CRM Nexxus</strong> — messagerie Brevo, parcours commerciaux</span></li>
+              <li class="flex gap-2"><span class="text-bleu-vif mt-0.5">▹</span><span><strong class="text-white">TALI</strong> — agence de voyage / billetterie multi-modes</span></li>
+              <li class="flex gap-2"><span class="text-bleu-vif mt-0.5">▹</span><span><strong class="text-white">WALI</strong> — gestion de voyages entreprises (privé / public)</span></li>
+              <li class="flex gap-2"><span class="text-bleu-vif mt-0.5">▹</span><span><strong class="text-white">Kimba Connect</strong> — billetterie ferroviaire (CGI)</span></li>
+            </ul>
+            <div class="tech-stack">
+              <span class="tech-chip"><i class="fa-brands fa-js text-yellow-300"></i> JavaScript</span>
+              <span class="tech-chip"><i class="fa-brands fa-node-js text-green-400"></i> Node.js</span>
+              <span class="tech-chip"><i class="fa-brands fa-react text-cyan-300"></i> Next.js</span>
+              <span class="tech-chip"><i class="fa-solid fa-database text-sky-400"></i> PostgreSQL</span>
+              <span class="tech-chip"><i class="fa-solid fa-envelope text-orange-300"></i> Brevo</span>
+              <span class="method-label">Méthodes</span>
+              <span class="tech-chip"><i class="fa-solid fa-arrows-rotate text-bleu-vif"></i> Agile</span>
+              <span class="tech-chip"><i class="fa-brands fa-github text-gray-200"></i> Git / CI</span>
+              <span class="tech-chip"><i class="fa-solid fa-shield-halved text-emerald-300"></i> Tests sécu</span>
+            </div>
           </div>
-          <p class="text-gray-400 text-sm mb-4">Conception et évolution de produits numériques pour le marché gabonais.</p>
-          <ul class="space-y-2 text-sm text-gray-300 list-disc list-inside">
-            <li><strong class="text-white">CRM Nexxus</strong> — messagerie transactionnelle (Brevo), parcours CRM, intégrations.</li>
-            <li><strong class="text-white">TALI</strong> — agence de voyage en ligne / billetterie multi-modes (train, bus, avion, bateau).</li>
-            <li><strong class="text-white">WALI</strong> — outil de gestion des voyages pour entreprises privées ou publiques (pilote Nexxus / PVE).</li>
-            <li><strong class="text-white">Kimba Connect</strong> — billetterie ferroviaire SETRAG (partenariat CGI + Nexxus).</li>
-            <li><strong class="text-white">Tests de sécurité</strong> — contrôles et recommandations sur les applications livrées.</li>
-          </ul>
         </article>
 
-        <article class="bg-gray-800 border border-gray-700 rounded-xl p-6" data-aos="fade-up">
-          <div class="flex flex-wrap items-baseline justify-between gap-2 mb-2">
-            <h3 class="text-xl font-bold text-white">Développeur Backend C/C++ — Freelance · i2Tech</h3>
-            <span class="text-sm text-bleu-vif">Prestataire</span>
+        <article class="timeline-item" data-aos="fade-up" data-aos-delay="80">
+          <span class="timeline-dot" aria-hidden="true"></span>
+          <div class="exp-card">
+            <p class="text-xs uppercase tracking-[0.16em] text-bleu-vif mb-2">Freelance · prestataire</p>
+            <h3 class="text-xl font-bold text-white mb-1 font-display">Développeur Backend C/C++</h3>
+            <p class="text-sm text-bleu-vif/90 mb-3">i2Tech — startup gabonaise</p>
+            <p class="text-gray-400 text-sm mb-4">Serveurs &amp; APIs haute perf pour l’écosystème ILOG (ERP, social, immo, mobilité).</p>
+            <ul class="space-y-2 text-sm text-gray-300">
+              <li class="flex gap-2"><span class="text-bleu-vif mt-0.5">▹</span><span><strong class="text-white">I-LOG Server</strong> — stocks, inventaire, RH</span></li>
+              <li class="flex gap-2"><span class="text-bleu-vif mt-0.5">▹</span><span><strong class="text-white">ILOG Social</strong> · <strong class="text-white">IImmoService</strong> · <strong class="text-white">MobilityServer</strong></span></li>
+              <li class="flex gap-2"><span class="text-bleu-vif mt-0.5">▹</span><span>Services licences, catalogue, MQTT, configuration</span></li>
+            </ul>
+            <div class="tech-stack">
+              <span class="tech-chip"><i class="fa-solid fa-c text-blue-300"></i> C / C++</span>
+              <span class="tech-chip"><i class="fa-brands fa-python text-yellow-300"></i> Python</span>
+              <span class="tech-chip"><i class="fa-solid fa-database text-sky-400"></i> SQL</span>
+              <span class="tech-chip"><i class="fa-solid fa-network-wired text-violet-300"></i> MQTT</span>
+              <span class="method-label">Méthodes</span>
+              <span class="tech-chip"><i class="fa-solid fa-layer-group text-teal-300"></i> Microservices</span>
+              <span class="tech-chip"><i class="fa-solid fa-vial text-pink-300"></i> Tests API</span>
+              <span class="tech-chip"><i class="fa-brands fa-git-alt text-orange-400"></i> Git</span>
+            </div>
           </div>
-          <p class="text-gray-400 text-sm mb-4">Startup gabonaise — développement serveur / API en C et C++ (missions freelance, code entreprise non publié ici).</p>
-          <ul class="space-y-2 text-sm text-gray-300 list-disc list-inside">
-            <li><strong class="text-white">I-LOG Server</strong> — backend ERP (stocks, inventaire, RH).</li>
-            <li><strong class="text-white">ILOG Social</strong> — services serveur liés au volet social / collaboration.</li>
-            <li><strong class="text-white">IImmoService</strong> — API / serveur immobilier.</li>
-            <li><strong class="text-white">MobilityServer</strong> — backend mobilité / transport.</li>
-            <li>Autres services serveur : licences, catalogue, sales, inventory, MQTT, configuration, common.</li>
-          </ul>
         </article>
 
-        <article class="bg-gray-800 border border-gray-700 rounded-xl p-6" data-aos="fade-up">
-          <div class="flex flex-wrap items-baseline justify-between gap-2 mb-2">
-            <h3 class="text-xl font-bold text-white">Projets personnels & formations</h3>
-            <span class="text-sm text-bleu-vif">2022 — présent</span>
+        <article class="timeline-item" data-aos="fade-up" data-aos-delay="120">
+          <span class="timeline-dot" aria-hidden="true"></span>
+          <div class="exp-card">
+            <p class="text-xs uppercase tracking-[0.16em] text-bleu-vif mb-2">2022 — présent</p>
+            <h3 class="text-xl font-bold text-white mb-1 font-display">Projets personnels &amp; formation</h3>
+            <p class="text-sm text-bleu-vif/90 mb-3">Indépendant · formateur</p>
+            <ul class="space-y-2 text-sm text-gray-300">
+              <li class="flex gap-2"><span class="text-bleu-vif mt-0.5">▹</span><span><strong class="text-white">O-IMMO</strong> — immo Gabon / FCFA (en cours)</span></li>
+              <li class="flex gap-2"><span class="text-bleu-vif mt-0.5">▹</span><span>Wazup e-commerce · gestion énergétique ML</span></li>
+              <li class="flex gap-2"><span class="text-bleu-vif mt-0.5">▹</span><span>Mentorat UX / full-stack</span></li>
+            </ul>
+            <div class="tech-stack">
+              <span class="tech-chip"><i class="fa-brands fa-python text-yellow-300"></i> Python</span>
+              <span class="tech-chip"><i class="fa-brands fa-js text-yellow-300"></i> JavaScript</span>
+              <span class="tech-chip"><i class="fa-solid fa-mobile-screen text-sky-300"></i> Mobile</span>
+              <span class="method-label">Méthodes</span>
+              <span class="tech-chip"><i class="fa-solid fa-pen-ruler text-bleu-vif"></i> UX first</span>
+              <span class="tech-chip"><i class="fa-solid fa-rocket text-amber-300"></i> MVP itératif</span>
+            </div>
           </div>
-          <ul class="space-y-2 text-sm text-gray-300 list-disc list-inside">
-            <li><strong class="text-white">O-IMMO</strong> — plateforme immobilière (Gabon / FCFA) — <em>projet personnel en cours</em>.</li>
-            <li>Backend mobile e-commerce (Wazup), système énergétique ML.</li>
-            <li>Formations courtes et mentorat (UX, full-stack).</li>
-          </ul>
         </article>
       </div>
     </div>
@@ -411,8 +534,16 @@
                   <span class="text-[10px] uppercase tracking-wide bg-gray-700 text-gray-300 px-2 py-0.5 rounded">Sans lien code</span>
                 </div>
                 <h3 class="text-xl font-semibold text-white mb-2">TALI — Agence de voyage</h3>
-                <p class="text-gray-400 text-sm mb-4 h-28 overflow-y-auto custom-scrollbar">Contribution à une billetterie voyageurs en ligne multi-modes (train, bus, avion, bateau) : parcours réservation, API, qualité et ops — sans publication de code ni assets de marque.</p>
-                <p class="text-xs text-gray-500">Node.js · Express · PostgreSQL · tests · Docker</p>
+                <p class="text-gray-400 text-sm mb-3 h-24 overflow-y-auto custom-scrollbar">Contribution à une billetterie voyageurs en ligne multi-modes (train, bus, avion, bateau) : parcours réservation, API, qualité et ops — sans publication de code ni assets de marque.</p>
+                <div class="tech-stack">
+                  <span class="tech-chip"><i class="fa-brands fa-node-js text-green-400"></i> Node.js</span>
+                  <span class="tech-chip"><i class="fa-solid fa-server text-gray-300"></i> Express</span>
+                  <span class="tech-chip"><i class="fa-solid fa-database text-sky-400"></i> PostgreSQL</span>
+                  <span class="tech-chip"><i class="fa-brands fa-docker text-blue-400"></i> Docker</span>
+                  <span class="method-label">Méthodes</span>
+                  <span class="tech-chip"><i class="fa-solid fa-vial text-pink-300"></i> Playwright / E2E</span>
+                  <span class="tech-chip"><i class="fa-solid fa-arrows-rotate text-bleu-vif"></i> CI/CD</span>
+                </div>
               </div>
             </article>
 
@@ -430,8 +561,16 @@
                   <span class="text-[10px] uppercase tracking-wide bg-gray-700 text-gray-300 px-2 py-0.5 rounded">Sans lien code</span>
                 </div>
                 <h3 class="text-xl font-semibold text-white mb-2">WALI</h3>
-                <p class="text-gray-400 text-sm mb-4 h-28 overflow-y-auto custom-scrollbar">Outil de gestion des voyages pour entreprises privées ou publiques (pilote PVE) : demandes, validations, budgets, billets — distinct de TALI (agence voyage grand public).</p>
-                <p class="text-xs text-gray-500">Node.js · Express · PostgreSQL · Brevo</p>
+                <p class="text-gray-400 text-sm mb-3 h-24 overflow-y-auto custom-scrollbar">Outil de gestion des voyages pour entreprises privées ou publiques (pilote PVE) : demandes, validations, budgets, billets — distinct de TALI (agence voyage grand public).</p>
+                <div class="tech-stack">
+                  <span class="tech-chip"><i class="fa-brands fa-node-js text-green-400"></i> Node.js</span>
+                  <span class="tech-chip"><i class="fa-solid fa-server text-gray-300"></i> Express</span>
+                  <span class="tech-chip"><i class="fa-solid fa-database text-sky-400"></i> PostgreSQL</span>
+                  <span class="tech-chip"><i class="fa-solid fa-envelope text-orange-300"></i> Brevo</span>
+                  <span class="method-label">Méthodes</span>
+                  <span class="tech-chip"><i class="fa-solid fa-sitemap text-teal-300"></i> Workflow validation</span>
+                  <span class="tech-chip"><i class="fa-solid fa-clipboard-check text-emerald-300"></i> UAT / pilote</span>
+                </div>
               </div>
             </article>
 
@@ -449,8 +588,17 @@
                   <span class="text-[10px] uppercase tracking-wide bg-gray-700 text-gray-300 px-2 py-0.5 rounded">Sans lien code</span>
                 </div>
                 <h3 class="text-xl font-semibold text-white mb-2">CRM Nexxus</h3>
-                <p class="text-gray-400 text-sm mb-4 h-28 overflow-y-auto custom-scrollbar">CRM commercial : messagerie transactionnelle, activités, parcours clients. Stack production (Next.js · Auth · Prisma · Brevo).</p>
-                <p class="text-xs text-gray-500">Next.js · Prisma · Brevo · PostgreSQL</p>
+                <p class="text-gray-400 text-sm mb-3 h-24 overflow-y-auto custom-scrollbar">CRM commercial : messagerie transactionnelle, activités, parcours clients. Stack production (Next.js · Auth · Prisma · Brevo).</p>
+                <div class="tech-stack">
+                  <span class="tech-chip"><i class="fa-brands fa-react text-cyan-300"></i> Next.js</span>
+                  <span class="tech-chip"><i class="fa-solid fa-key text-amber-300"></i> Auth.js</span>
+                  <span class="tech-chip"><i class="fa-solid fa-cube text-teal-300"></i> Prisma</span>
+                  <span class="tech-chip"><i class="fa-solid fa-database text-sky-400"></i> PostgreSQL</span>
+                  <span class="tech-chip"><i class="fa-solid fa-envelope text-orange-300"></i> Brevo</span>
+                  <span class="method-label">Méthodes</span>
+                  <span class="tech-chip"><i class="fa-solid fa-arrows-rotate text-bleu-vif"></i> Agile</span>
+                  <span class="tech-chip"><i class="fa-brands fa-github text-gray-200"></i> GitFlow</span>
+                </div>
               </div>
             </article>
 
@@ -468,8 +616,15 @@
                   <span class="text-[10px] uppercase tracking-wide bg-gray-700 text-gray-300 px-2 py-0.5 rounded">Sans lien code</span>
                 </div>
                 <h3 class="text-xl font-semibold text-white mb-2">Billetterie ferroviaire</h3>
-                <p class="text-gray-400 text-sm mb-4 h-28 overflow-y-auto custom-scrollbar">Participation au projet Kimba Connect (CGI) : billetterie ferroviaire, côté Nexxus. Description volontairement non technique / non confidentielle.</p>
-                <p class="text-xs text-gray-500">Web · API · billetterie</p>
+                <p class="text-gray-400 text-sm mb-3 h-24 overflow-y-auto custom-scrollbar">Participation au projet Kimba Connect (CGI) : billetterie ferroviaire, côté Nexxus. Description volontairement non technique / non confidentielle.</p>
+                <div class="tech-stack">
+                  <span class="tech-chip"><i class="fa-brands fa-js text-yellow-300"></i> JavaScript</span>
+                  <span class="tech-chip"><i class="fa-brands fa-node-js text-green-400"></i> Node.js</span>
+                  <span class="tech-chip"><i class="fa-solid fa-database text-sky-400"></i> PostgreSQL</span>
+                  <span class="method-label">Méthodes</span>
+                  <span class="tech-chip"><i class="fa-solid fa-users text-bleu-vif"></i> Multi-acteurs</span>
+                  <span class="tech-chip"><i class="fa-solid fa-shield-halved text-emerald-300"></i> Qualité / sécu</span>
+                </div>
               </div>
             </article>
 
@@ -486,8 +641,15 @@
                   <span class="text-[10px] uppercase tracking-wide bg-sky-900/50 text-sky-300 px-2 py-0.5 rounded">Perso · en cours</span>
                 </div>
                 <h3 class="text-xl font-semibold text-white mb-2">O-IMMO</h3>
-                <p class="text-gray-400 text-sm mb-4 h-28 overflow-y-auto custom-scrollbar">App mobile de location / recherche d’appartements (Gabon, FCFA, multi-rôles). Projet personnel — pas encore livré en public.</p>
-                <p class="text-xs text-gray-500">Mobile · produit · UX</p>
+                <p class="text-gray-400 text-sm mb-3 h-24 overflow-y-auto custom-scrollbar">App mobile de location / recherche d’appartements (Gabon, FCFA, multi-rôles). Projet personnel — pas encore livré en public.</p>
+                <div class="tech-stack">
+                  <span class="tech-chip"><i class="fa-solid fa-mobile-screen text-sky-300"></i> Mobile</span>
+                  <span class="tech-chip"><i class="fa-brands fa-js text-yellow-300"></i> JavaScript</span>
+                  <span class="tech-chip"><i class="fa-solid fa-database text-sky-400"></i> API / data</span>
+                  <span class="method-label">Méthodes</span>
+                  <span class="tech-chip"><i class="fa-solid fa-pen-ruler text-bleu-vif"></i> UX multi-rôles</span>
+                  <span class="tech-chip"><i class="fa-solid fa-rocket text-amber-300"></i> MVP</span>
+                </div>
               </div>
             </article>
 
@@ -499,8 +661,15 @@
               <div class="p-6">
                 <span class="text-[10px] uppercase tracking-wide bg-gray-700 text-gray-300 px-2 py-0.5 rounded">Perso · public</span>
                 <h3 class="text-xl font-semibold text-white mb-2 mt-2">Wazup e-commerce</h3>
-                <p class="text-gray-400 text-sm mb-4 h-28 overflow-y-auto custom-scrollbar">Backend mobile e-commerce : API REST, auth, commandes / transactions. Focus serveur.</p>
-                <p class="text-xs text-gray-500">Node.js · Express · JavaScript</p>
+                <p class="text-gray-400 text-sm mb-3 h-24 overflow-y-auto custom-scrollbar">Backend mobile e-commerce : API REST, auth, commandes / transactions. Focus serveur.</p>
+                <div class="tech-stack">
+                  <span class="tech-chip"><i class="fa-brands fa-node-js text-green-400"></i> Node.js</span>
+                  <span class="tech-chip"><i class="fa-solid fa-server text-gray-300"></i> Express</span>
+                  <span class="tech-chip"><i class="fa-brands fa-js text-yellow-300"></i> JavaScript</span>
+                  <span class="method-label">Méthodes</span>
+                  <span class="tech-chip"><i class="fa-solid fa-key text-amber-300"></i> Auth API</span>
+                  <span class="tech-chip"><i class="fa-solid fa-diagram-project text-teal-300"></i> REST</span>
+                </div>
               </div>
             </article>
 
@@ -515,11 +684,19 @@
                   <span class="text-[10px] uppercase tracking-wide bg-gray-700 text-gray-300 px-2 py-0.5 rounded">Backend C++</span>
                 </div>
                 <h3 class="text-xl font-semibold text-white mb-2">API REST Gestion des Ressources (Ilogserveur)</h3>
-                <p class="text-gray-400 text-sm mb-4 h-28 overflow-y-auto custom-scrollbar">
+                <p class="text-gray-400 text-sm mb-3 h-24 overflow-y-auto custom-scrollbar">
                   Développement et connexion au serveur <strong class="text-gray-200">Ilogserveur</strong>, spécialisé dans les systèmes de gestion d’entreprise (ERP). Ce serveur gère :
                   stocks &amp; inventaire, ressources humaines (RH). Architecture en <strong class="text-gray-200">C++</strong> côté serveur pour le traitement rapide des requêtes, avec un client de test en <strong class="text-gray-200">Python</strong>.
                 </p>
-                <button type="button" data-video-src="assets/video/ilog.mp4" class="text-bleu-vif text-sm hover:text-white">Voir la Démo <i class="fa-solid fa-play-circle ml-1"></i></button>
+                <button type="button" data-video-src="assets/video/ilog.mp4" class="text-bleu-vif text-sm hover:text-white mb-2">Voir la Démo <i class="fa-solid fa-play-circle ml-1"></i></button>
+                <div class="tech-stack">
+                  <span class="tech-chip"><i class="fa-solid fa-c text-blue-300"></i> C++</span>
+                  <span class="tech-chip"><i class="fa-brands fa-python text-yellow-300"></i> Python</span>
+                  <span class="tech-chip"><i class="fa-solid fa-diagram-project text-teal-300"></i> REST API</span>
+                  <span class="method-label">Méthodes</span>
+                  <span class="tech-chip"><i class="fa-solid fa-server text-gray-300"></i> Client/serveur</span>
+                  <span class="tech-chip"><i class="fa-solid fa-vial text-pink-300"></i> Tests</span>
+                </div>
               </div>
             </article>
 
@@ -537,8 +714,14 @@
                   <span class="text-[10px] uppercase tracking-wide bg-gray-700 text-gray-300 px-2 py-0.5 rounded">Sans lien code</span>
                 </div>
                 <h3 class="text-xl font-semibold text-white mb-2">ILOG Social</h3>
-                <p class="text-gray-400 text-sm mb-4 h-28 overflow-y-auto custom-scrollbar">Contribution backend au volet social / collaboration de l’écosystème ILOG — développement serveur C/C++ en freelance.</p>
-                <p class="text-xs text-gray-500">C / C++ · microservices</p>
+                <p class="text-gray-400 text-sm mb-3 h-24 overflow-y-auto custom-scrollbar">Contribution backend au volet social / collaboration de l’écosystème ILOG — développement serveur C/C++ en freelance.</p>
+                <div class="tech-stack">
+                  <span class="tech-chip"><i class="fa-solid fa-c text-blue-300"></i> C / C++</span>
+                  <span class="tech-chip"><i class="fa-solid fa-layer-group text-teal-300"></i> Microservices</span>
+                  <span class="method-label">Méthodes</span>
+                  <span class="tech-chip"><i class="fa-solid fa-diagram-project text-violet-300"></i> API serveur</span>
+                  <span class="tech-chip"><i class="fa-brands fa-git-alt text-orange-400"></i> Git</span>
+                </div>
               </div>
             </article>
 
@@ -556,8 +739,14 @@
                   <span class="text-[10px] uppercase tracking-wide bg-gray-700 text-gray-300 px-2 py-0.5 rounded">Sans lien code</span>
                 </div>
                 <h3 class="text-xl font-semibold text-white mb-2">IImmoService</h3>
-                <p class="text-gray-400 text-sm mb-4 h-28 overflow-y-auto custom-scrollbar">Service serveur immobilier : endpoints et logique métier côté backend C/C++ pour i2Tech.</p>
-                <p class="text-xs text-gray-500">C / C++ · API métier</p>
+                <p class="text-gray-400 text-sm mb-3 h-24 overflow-y-auto custom-scrollbar">Service serveur immobilier : endpoints et logique métier côté backend C/C++ pour i2Tech.</p>
+                <div class="tech-stack">
+                  <span class="tech-chip"><i class="fa-solid fa-c text-blue-300"></i> C / C++</span>
+                  <span class="tech-chip"><i class="fa-solid fa-building text-teal-300"></i> Métier immo</span>
+                  <span class="method-label">Méthodes</span>
+                  <span class="tech-chip"><i class="fa-solid fa-diagram-project text-teal-300"></i> API métier</span>
+                  <span class="tech-chip"><i class="fa-solid fa-vial text-pink-300"></i> Tests</span>
+                </div>
               </div>
             </article>
 
@@ -575,8 +764,15 @@
                   <span class="text-[10px] uppercase tracking-wide bg-gray-700 text-gray-300 px-2 py-0.5 rounded">Sans lien code</span>
                 </div>
                 <h3 class="text-xl font-semibold text-white mb-2">Mobility &amp; services ILOG</h3>
-                <p class="text-gray-400 text-sm mb-4 h-28 overflow-y-auto custom-scrollbar">Backend mobilité / transport et services associés (licences, catalogue, sales, inventory, MQTT, configuration, common) — prestataire C/C++ i2Tech.</p>
-                <p class="text-xs text-gray-500">C / C++ · MQTT · microservices</p>
+                <p class="text-gray-400 text-sm mb-3 h-24 overflow-y-auto custom-scrollbar">Backend mobilité / transport et services associés (licences, catalogue, sales, inventory, MQTT, configuration, common) — prestataire C/C++ i2Tech.</p>
+                <div class="tech-stack">
+                  <span class="tech-chip"><i class="fa-solid fa-c text-blue-300"></i> C / C++</span>
+                  <span class="tech-chip"><i class="fa-solid fa-network-wired text-violet-300"></i> MQTT</span>
+                  <span class="tech-chip"><i class="fa-solid fa-layer-group text-teal-300"></i> Microservices</span>
+                  <span class="method-label">Méthodes</span>
+                  <span class="tech-chip"><i class="fa-solid fa-puzzle-piece text-amber-300"></i> Services découpés</span>
+                  <span class="tech-chip"><i class="fa-brands fa-git-alt text-orange-400"></i> Git</span>
+                </div>
               </div>
             </article>
 
@@ -588,13 +784,22 @@
               <div class="p-6">
                 <span class="text-[10px] uppercase tracking-wide bg-gray-700 text-gray-300 px-2 py-0.5 rounded">Perso · public</span>
                 <h3 class="text-xl font-semibold text-white mb-2 mt-2">Systèmes intelligent de gestion Énergétique</h3>
-                <p class="text-gray-400 text-sm mb-4 h-28 overflow-y-auto custom-scrollbar">
+                <p class="text-gray-400 text-sm mb-3 h-24 overflow-y-auto custom-scrollbar">
                   Solution fullstack (Flask/Python) pour maximiser l’autoconsommation et réduire les coûts des installations solaires.
                   Algorithmes de Machine Learning (backend Python) pour une gestion prédictive des ressources, et interface HTML/JS/CSS pour le suivi en temps réel des flux énergétiques.
                 </p>
-                <div class="flex flex-wrap gap-3 items-center">
+                <div class="flex flex-wrap gap-3 items-center mb-2">
                   <button type="button" data-video-src="assets/video/back-end.mp4" class="text-bleu-vif text-sm hover:text-white">Démo Backend <i class="fa-solid fa-server ml-1"></i></button>
                   <button type="button" data-video-src="assets/video/front-end.mp4" class="text-bleu-vif text-sm hover:text-white">Démo Frontend <i class="fa-solid fa-display ml-1"></i></button>
+                </div>
+                <div class="tech-stack">
+                  <span class="tech-chip"><i class="fa-brands fa-python text-yellow-300"></i> Python</span>
+                  <span class="tech-chip"><i class="fa-solid fa-flask text-emerald-300"></i> Flask</span>
+                  <span class="tech-chip"><i class="fa-brands fa-js text-yellow-300"></i> JavaScript</span>
+                  <span class="tech-chip"><i class="fa-solid fa-chart-line text-rose-300"></i> ML</span>
+                  <span class="method-label">Méthodes</span>
+                  <span class="tech-chip"><i class="fa-solid fa-brain text-violet-300"></i> Prédictif</span>
+                  <span class="tech-chip"><i class="fa-solid fa-display text-bleu-vif"></i> Fullstack</span>
                 </div>
               </div>
             </article>
