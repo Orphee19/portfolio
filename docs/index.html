@@ -48,6 +48,67 @@
       width: 0 !important;
       pointer-events: none !important;
     }
+    .projects-stage {
+      position: relative;
+      isolation: isolate;
+    }
+    .projects-stage::before,
+    .projects-stage::after {
+      content: "";
+      position: absolute;
+      border-radius: 9999px;
+      filter: blur(60px);
+      opacity: 0.45;
+      pointer-events: none;
+      z-index: 0;
+      animation: float-orb 12s ease-in-out infinite;
+    }
+    .projects-stage::before {
+      width: 280px;
+      height: 280px;
+      background: #3B5998;
+      top: -40px;
+      left: -60px;
+    }
+    .projects-stage::after {
+      width: 320px;
+      height: 320px;
+      background: #A1C4D6;
+      bottom: -80px;
+      right: -40px;
+      animation-delay: -4s;
+    }
+    @keyframes float-orb {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(24px, -18px) scale(1.08); }
+    }
+    .project-card {
+      position: relative;
+      transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+    }
+    .project-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 18px 40px rgba(59, 89, 152, 0.28);
+    }
+    .project-visual {
+      position: relative;
+      overflow: hidden;
+    }
+    .project-visual::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.12) 50%, transparent 70%);
+      transform: translateX(-120%);
+      transition: transform 0.7s ease;
+    }
+    .project-card:hover .project-visual::after {
+      transform: translateX(120%);
+    }
+    .mesh-dots {
+      background-image: radial-gradient(rgba(161, 196, 214, 0.18) 1px, transparent 1px);
+      background-size: 14px 14px;
+    }
   </style>
 </head>
 <body class="bg-gray-900 min-h-screen text-gray-200">
@@ -180,8 +241,9 @@
           <p class="text-gray-400 text-sm mb-4">Conception et évolution de produits numériques pour le marché gabonais.</p>
           <ul class="space-y-2 text-sm text-gray-300 list-disc list-inside">
             <li><strong class="text-white">CRM Nexxus</strong> — messagerie transactionnelle (Brevo), parcours CRM, intégrations.</li>
-            <li><strong class="text-white">TALI PVE</strong> — contribution au produit métier (depuis août).</li>
-            <li><strong class="text-white">Kimba Connect</strong> — participation au projet lancé avec le CGI : billetterie ferroviaire (SETRAG), côté produit / technique Nexxus Gabon.</li>
+            <li><strong class="text-white">TALI</strong> — agence de voyage en ligne / billetterie multi-modes (train, bus, avion, bateau).</li>
+            <li><strong class="text-white">PVE Entreprises</strong> — produit métier distinct (pilote entreprises, Gabon / FCFA).</li>
+            <li><strong class="text-white">Kimba Connect</strong> — billetterie ferroviaire SETRAG (partenariat CGI + Nexxus).</li>
             <li><strong class="text-white">Tests de sécurité</strong> — contrôles et recommandations sur les applications livrées.</li>
           </ul>
         </article>
@@ -210,7 +272,8 @@
           <h3 class="text-2xl font-bold text-gray-50 mb-6 border-b border-bleu-mystere pb-2">Techniques</h3>
           <div class="grid grid-cols-2 gap-4">
             <div class="bg-gray-900 p-4 rounded-lg border border-gray-700 hover:border-bleu-mystere transition"><i class="fa-brands fa-python text-bleu-vif mb-2"></i><h4 class="font-semibold">Python / Django</h4><p class="text-xs text-gray-400">API, web, backend</p></div>
-            <div class="bg-gray-900 p-4 rounded-lg border border-gray-700 hover:border-bleu-mystere transition"><i class="fa-brands fa-js text-bleu-vif mb-2"></i><h4 class="font-semibold">HTML / CSS / JS / Tailwind</h4><p class="text-xs text-gray-400">Frontend & UI</p></div>
+            <div class="bg-gray-900 p-4 rounded-lg border border-gray-700 hover:border-bleu-mystere transition"><i class="fa-brands fa-js text-bleu-vif mb-2"></i><h4 class="font-semibold">JS / Next.js / Tailwind</h4><p class="text-xs text-gray-400">Frontend & UI</p></div>
+            <div class="bg-gray-900 p-4 rounded-lg border border-gray-700 hover:border-bleu-mystere transition"><i class="fa-brands fa-node-js text-bleu-vif mb-2"></i><h4 class="font-semibold">Node.js / Express</h4><p class="text-xs text-gray-400">API TALI & mobile</p></div>
             <div class="bg-gray-900 p-4 rounded-lg border border-gray-700 hover:border-bleu-mystere transition"><i class="fa-solid fa-database text-bleu-vif mb-2"></i><h4 class="font-semibold">SQL / PostgreSQL</h4><p class="text-xs text-gray-400">Modélisation & requêtes</p></div>
             <div class="bg-gray-900 p-4 rounded-lg border border-gray-700 hover:border-bleu-mystere transition"><i class="fa-solid fa-envelope text-bleu-vif mb-2"></i><h4 class="font-semibold">Brevo</h4><p class="text-xs text-gray-400">Emails transactionnels</p></div>
             <div class="bg-gray-900 p-4 rounded-lg border border-gray-700 hover:border-bleu-mystere transition"><i class="fa-brands fa-github text-bleu-vif mb-2"></i><h4 class="font-semibold">Git / GitHub</h4><p class="text-xs text-gray-400">Versioning & Pages</p></div>
@@ -241,123 +304,197 @@
   </section>
 
   <!-- PROJECTS -->
-  <section id="projets" class="py-20 border-t border-bleu-mystere">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-4xl font-extrabold text-center text-bleu-vif mb-3 font-display">Projets</h2>
-      <p class="text-center text-gray-400 text-sm mb-12">Professionnels (rôle & stack) et personnels clairement distingués.</p>
+  <section id="projets" class="py-20 border-t border-bleu-mystere overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 projects-stage">
+      <div class="relative z-10">
+        <h2 class="text-4xl font-extrabold text-center text-bleu-vif mb-3 font-display">Projets</h2>
+        <p class="text-center text-gray-400 text-sm mb-4 max-w-2xl mx-auto">
+          Approche pro : rôle + impact + stack. Liens GitHub publics quand c’est open ;
+          repos entreprise : lien + badge <em>privé</em> (accès équipe).
+        </p>
+        <p class="text-center text-gray-500 text-xs mb-12">TALI ≠ PVE — deux produits distincts.</p>
 
-      <div class="relative">
-        <div id="projects-container" class="flex space-x-6 pb-4 overflow-x-auto snap-x snap-mandatory hide-scrollbar scroll-smooth">
+        <div class="relative">
+          <div id="projects-container" class="flex space-x-6 pb-4 overflow-x-auto snap-x snap-mandatory hide-scrollbar scroll-smooth">
 
-          <!-- CRM -->
-          <article class="flex-shrink-0 w-80 md:w-96 snap-start bg-gray-800 rounded-xl border border-gray-700 overflow-hidden hover:border-bleu-mystere transition">
-            <div class="h-44 bg-gradient-to-br from-bleu-mystere to-gray-900 flex items-center justify-center">
-              <i class="fa-solid fa-headset text-5xl text-bleu-vif/80"></i>
-            </div>
-            <div class="p-6">
-              <div class="flex gap-2 mb-2 flex-wrap">
-                <span class="text-[10px] uppercase tracking-wide bg-bleu-mystere/40 text-bleu-vif px-2 py-0.5 rounded">Pro · Nexxus</span>
+            <!-- TALI -->
+            <article class="project-card flex-shrink-0 w-80 md:w-96 snap-start bg-gray-800/90 rounded-xl border border-cyan-700/40 overflow-hidden backdrop-blur-sm">
+              <div class="project-visual h-44 mesh-dots bg-gradient-to-br from-cyan-800 via-sky-900 to-gray-950 flex items-center justify-center">
+                <div class="text-center">
+                  <i class="fa-solid fa-plane-departure text-5xl text-cyan-200/90 mb-2"></i>
+                  <p class="text-[10px] uppercase tracking-[0.2em] text-cyan-100/70">Travel · multi-modes</p>
+                </div>
               </div>
-              <h3 class="text-xl font-semibold text-white mb-2">CRM Nexxus</h3>
-              <p class="text-gray-400 text-sm mb-4 h-24 overflow-y-auto custom-scrollbar">Messagerie CRM complète (Brevo), activités et parcours commerciaux. Stack orientée production pour le marché gabonais.</p>
-              <p class="text-xs text-gray-500">Django · Brevo · PostgreSQL · GitHub</p>
-            </div>
-          </article>
-
-          <!-- TALI -->
-          <article class="flex-shrink-0 w-80 md:w-96 snap-start bg-gray-800 rounded-xl border border-gray-700 overflow-hidden hover:border-bleu-mystere transition">
-            <div class="h-44 bg-gradient-to-br from-emerald-900 to-gray-900 flex items-center justify-center">
-              <i class="fa-solid fa-leaf text-5xl text-emerald-300/80"></i>
-            </div>
-            <div class="p-6">
-              <span class="text-[10px] uppercase tracking-wide bg-emerald-900/60 text-emerald-300 px-2 py-0.5 rounded">Pro · Nexxus</span>
-              <h3 class="text-xl font-semibold text-white mb-2 mt-2">TALI PVE</h3>
-              <p class="text-gray-400 text-sm mb-4 h-24 overflow-y-auto custom-scrollbar">Contribution au produit métier TALI PVE (depuis août) : fonctionnalités, qualité et intégration dans l’écosystème Nexxus.</p>
-              <p class="text-xs text-gray-500">Full-Stack · produit métier</p>
-            </div>
-          </article>
-
-          <!-- Kimba -->
-          <article class="flex-shrink-0 w-80 md:w-96 snap-start bg-gray-800 rounded-xl border border-gray-700 overflow-hidden hover:border-bleu-mystere transition">
-            <div class="h-44 bg-gradient-to-br from-amber-900 to-gray-900 flex items-center justify-center">
-              <i class="fa-solid fa-train text-5xl text-amber-200/80"></i>
-            </div>
-            <div class="p-6">
-              <span class="text-[10px] uppercase tracking-wide bg-amber-900/50 text-amber-200 px-2 py-0.5 rounded">Pro · partenariat CGI</span>
-              <h3 class="text-xl font-semibold text-white mb-2 mt-2">Kimba Connect</h3>
-              <p class="text-gray-400 text-sm mb-4 h-24 overflow-y-auto custom-scrollbar">Participation au projet de billetterie ferroviaire (SETRAG), porté avec le CGI et Nexxus Gabon. Description volontairement non technique / non confidentielle.</p>
-              <p class="text-xs text-gray-500">Produit · billetterie · collaboration multi-acteurs</p>
-            </div>
-          </article>
-
-          <!-- O-IMMO -->
-          <article class="flex-shrink-0 w-80 md:w-96 snap-start bg-gray-800 rounded-xl border border-gray-700 overflow-hidden hover:border-bleu-mystere transition">
-            <div class="h-44 bg-gradient-to-br from-sky-900 to-gray-900 flex items-center justify-center">
-              <i class="fa-solid fa-house text-5xl text-sky-300/80"></i>
-            </div>
-            <div class="p-6">
-              <span class="text-[10px] uppercase tracking-wide bg-sky-900/50 text-sky-300 px-2 py-0.5 rounded">Perso · en cours</span>
-              <h3 class="text-xl font-semibold text-white mb-2 mt-2">O-IMMO</h3>
-              <p class="text-gray-400 text-sm mb-4 h-24 overflow-y-auto custom-scrollbar">Plateforme immobilière pensée pour le Gabon (FCFA, multi-rôles). Projet personnel — non livré en production publique à ce stade.</p>
-              <p class="text-xs text-gray-500">Produit · UX · full-stack</p>
-            </div>
-          </article>
-
-          <!-- Wazup -->
-          <article class="flex-shrink-0 w-80 md:w-96 snap-start bg-gray-800 rounded-xl border border-gray-700 overflow-hidden hover:border-bleu-mystere transition">
-            <img src="assets/image/wazup.png" alt="Aperçu backend e-commerce" class="w-full h-44 object-cover" />
-            <div class="p-6">
-              <span class="text-[10px] uppercase tracking-wide bg-gray-700 text-gray-300 px-2 py-0.5 rounded">Perso / open</span>
-              <h3 class="text-xl font-semibold text-white mb-2 mt-2">Backend mobile e-commerce</h3>
-              <p class="text-gray-400 text-sm mb-4 h-24 overflow-y-auto custom-scrollbar">API RESTful Node.js / Express : auth, logique métier, transactions. Focus backend.</p>
-              <a href="https://github.com/Orphee19/OrpheeNgouessi/tree/main/Wazup" target="_blank" rel="noopener noreferrer" class="text-bleu-vif hover:text-white text-sm">Voir le code <i class="fa-solid fa-arrow-right ml-1"></i></a>
-            </div>
-          </article>
-
-          <!-- Ilog -->
-          <article class="flex-shrink-0 w-80 md:w-96 snap-start bg-gray-800 rounded-xl border border-gray-700 overflow-hidden hover:border-bleu-mystere transition">
-            <img src="assets/image/Gestion.jpg" alt="Aperçu Ilogserveur" class="w-full h-44 object-cover" />
-            <div class="p-6">
-              <span class="text-[10px] uppercase tracking-wide bg-gray-700 text-gray-300 px-2 py-0.5 rounded">Perso / open</span>
-              <h3 class="text-xl font-semibold text-white mb-2 mt-2">Ilogserveur (ERP)</h3>
-              <p class="text-gray-400 text-sm mb-4 h-24 overflow-y-auto custom-scrollbar">Serveur C++ pour stocks, inventaire et RH ; client de test Python.</p>
-              <div class="flex gap-3 items-center">
-                <button type="button" data-video-src="assets/video/ilog.mp4" class="text-bleu-vif text-sm hover:text-white">Démo <i class="fa-solid fa-play-circle"></i></button>
-                <a href="https://github.com/Orphee19/OrpheeNgouessi/tree/main/Ilog_Server" target="_blank" rel="noopener noreferrer" class="text-bleu-vif text-sm hover:text-white">Code</a>
+              <div class="p-6">
+                <div class="flex gap-2 mb-2 flex-wrap">
+                  <span class="text-[10px] uppercase tracking-wide bg-cyan-900/50 text-cyan-200 px-2 py-0.5 rounded">Pro · Nexxus</span>
+                  <span class="text-[10px] uppercase tracking-wide bg-gray-700 text-gray-300 px-2 py-0.5 rounded">Repo privé</span>
+                </div>
+                <h3 class="text-xl font-semibold text-white mb-2">TALI — Agence de voyage</h3>
+                <p class="text-gray-400 text-sm mb-4 h-28 overflow-y-auto custom-scrollbar">Billetterie voyageurs en ligne multi-modes (train, bus, avion, bateau) : réservation, paiement, extranet pro, API Node/Express, PostgreSQL, CI/CD &amp; monitoring.</p>
+                <p class="text-xs text-gray-500 mb-4">Node.js · Express · PostgreSQL · Playwright · Docker</p>
+                <a href="https://github.com/Nexxus-Gabon/tali-billetterie" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-bleu-vif hover:text-white text-sm">
+                  <i class="fa-brands fa-github"></i> Voir sur GitHub
+                </a>
               </div>
-            </div>
-          </article>
+            </article>
 
-          <!-- Energy -->
-          <article class="flex-shrink-0 w-80 md:w-96 snap-start bg-gray-800 rounded-xl border border-gray-700 overflow-hidden hover:border-bleu-mystere transition">
-            <img src="assets/image/IA.png" alt="Système énergétique" class="w-full h-44 object-cover" />
-            <div class="p-6">
-              <span class="text-[10px] uppercase tracking-wide bg-gray-700 text-gray-300 px-2 py-0.5 rounded">Perso / open</span>
-              <h3 class="text-xl font-semibold text-white mb-2 mt-2">Gestion énergétique intelligente</h3>
-              <p class="text-gray-400 text-sm mb-4 h-24 overflow-y-auto custom-scrollbar">Full-stack Flask/Python + ML pour anticiper production et consommation solaire.</p>
-              <div class="flex gap-3">
-                <button type="button" data-video-src="assets/video/back-end.mp4" class="text-bleu-vif text-sm hover:text-white">Backend</button>
-                <button type="button" data-video-src="assets/video/front-end.mp4" class="text-bleu-vif text-sm hover:text-white">Frontend</button>
+            <!-- PVE -->
+            <article class="project-card flex-shrink-0 w-80 md:w-96 snap-start bg-gray-800/90 rounded-xl border border-emerald-700/40 overflow-hidden backdrop-blur-sm">
+              <div class="project-visual h-44 mesh-dots bg-gradient-to-br from-emerald-800 via-teal-900 to-gray-950 flex items-center justify-center">
+                <div class="text-center">
+                  <i class="fa-solid fa-building text-5xl text-emerald-200/90 mb-2"></i>
+                  <p class="text-[10px] uppercase tracking-[0.2em] text-emerald-100/70">Entreprises · FCFA</p>
+                </div>
               </div>
-            </div>
-          </article>
+              <div class="p-6">
+                <div class="flex gap-2 mb-2 flex-wrap">
+                  <span class="text-[10px] uppercase tracking-wide bg-emerald-900/50 text-emerald-200 px-2 py-0.5 rounded">Pro · Nexxus</span>
+                  <span class="text-[10px] uppercase tracking-wide bg-gray-700 text-gray-300 px-2 py-0.5 rounded">Repo privé</span>
+                </div>
+                <h3 class="text-xl font-semibold text-white mb-2">PVE Entreprises</h3>
+                <p class="text-gray-400 text-sm mb-4 h-28 overflow-y-auto custom-scrollbar">Produit métier distinct de TALI : pilote PVE Entreprises (Gabon / FCFA) — parcours entreprise, qualité et intégration Nexxus.</p>
+                <p class="text-xs text-gray-500 mb-4">Full-Stack · produit métier</p>
+                <a href="https://github.com/Nexxus-Gabon/pve-entreprises" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-bleu-vif hover:text-white text-sm">
+                  <i class="fa-brands fa-github"></i> Voir sur GitHub
+                </a>
+              </div>
+            </article>
 
-          <!-- Carflow -->
-          <article class="flex-shrink-0 w-80 md:w-96 snap-start bg-gray-800 rounded-xl border border-gray-700 overflow-hidden hover:border-bleu-mystere transition">
-            <div class="h-44 bg-gradient-to-br from-violet-900 to-gray-900 flex items-center justify-center">
-              <i class="fa-solid fa-bus text-5xl text-violet-300/80"></i>
-            </div>
-            <div class="p-6">
-              <span class="text-[10px] uppercase tracking-wide bg-gray-700 text-gray-300 px-2 py-0.5 rounded">Perso / open</span>
-              <h3 class="text-xl font-semibold text-white mb-2 mt-2">Carflowser</h3>
-              <p class="text-gray-400 text-sm mb-4 h-24 overflow-y-auto custom-scrollbar">API transport & paiement : abonnements, suivi véhicules. Serveur C++, client Python.</p>
-              <a href="https://github.com/Orphee19/OrpheeNgouessi/tree/main/Carflowserver" target="_blank" rel="noopener noreferrer" class="text-bleu-vif hover:text-white text-sm">Voir le code <i class="fa-solid fa-arrow-right ml-1"></i></a>
-            </div>
-          </article>
+            <!-- CRM -->
+            <article class="project-card flex-shrink-0 w-80 md:w-96 snap-start bg-gray-800/90 rounded-xl border border-bleu-mystere/50 overflow-hidden backdrop-blur-sm">
+              <div class="project-visual h-44 mesh-dots bg-gradient-to-br from-bleu-mystere via-indigo-900 to-gray-950 flex items-center justify-center">
+                <div class="text-center">
+                  <i class="fa-solid fa-headset text-5xl text-bleu-vif/90 mb-2"></i>
+                  <p class="text-[10px] uppercase tracking-[0.2em] text-bleu-vif/70">CRM · Brevo</p>
+                </div>
+              </div>
+              <div class="p-6">
+                <div class="flex gap-2 mb-2 flex-wrap">
+                  <span class="text-[10px] uppercase tracking-wide bg-bleu-mystere/40 text-bleu-vif px-2 py-0.5 rounded">Pro · Nexxus</span>
+                  <span class="text-[10px] uppercase tracking-wide bg-gray-700 text-gray-300 px-2 py-0.5 rounded">Repo privé</span>
+                </div>
+                <h3 class="text-xl font-semibold text-white mb-2">CRM Nexxus</h3>
+                <p class="text-gray-400 text-sm mb-4 h-28 overflow-y-auto custom-scrollbar">CRM commercial : messagerie transactionnelle Brevo, activités, parcours clients. Stack production (Next.js · Auth.js · Prisma).</p>
+                <p class="text-xs text-gray-500 mb-4">Next.js · Auth.js · Prisma · Brevo · PostgreSQL</p>
+                <a href="https://github.com/Nexxus-Gabon/nexxus-crm" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-bleu-vif hover:text-white text-sm">
+                  <i class="fa-brands fa-github"></i> Voir sur GitHub
+                </a>
+              </div>
+            </article>
 
+            <!-- Kimba / SETRAG -->
+            <article class="project-card flex-shrink-0 w-80 md:w-96 snap-start bg-gray-800/90 rounded-xl border border-amber-700/40 overflow-hidden backdrop-blur-sm">
+              <div class="project-visual h-44 mesh-dots bg-gradient-to-br from-amber-800 via-orange-950 to-gray-950 flex items-center justify-center">
+                <div class="text-center">
+                  <i class="fa-solid fa-train text-5xl text-amber-100/90 mb-2"></i>
+                  <p class="text-[10px] uppercase tracking-[0.2em] text-amber-100/70">CGI · SETRAG</p>
+                </div>
+              </div>
+              <div class="p-6">
+                <div class="flex gap-2 mb-2 flex-wrap">
+                  <span class="text-[10px] uppercase tracking-wide bg-amber-900/50 text-amber-200 px-2 py-0.5 rounded">Pro · Kimba Connect</span>
+                  <span class="text-[10px] uppercase tracking-wide bg-gray-700 text-gray-300 px-2 py-0.5 rounded">Repo privé</span>
+                </div>
+                <h3 class="text-xl font-semibold text-white mb-2">Billetterie SETRAG</h3>
+                <p class="text-gray-400 text-sm mb-4 h-28 overflow-y-auto custom-scrollbar">Participation au projet Kimba Connect (CGI) : billetterie ferroviaire Transgabonais, côté Nexxus Gabon. Description non confidentielle.</p>
+                <p class="text-xs text-gray-500 mb-4">Web · API · billetterie</p>
+                <a href="https://github.com/Nexxus-Gabon/setrag-billetterie" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-bleu-vif hover:text-white text-sm">
+                  <i class="fa-brands fa-github"></i> Voir sur GitHub
+                </a>
+              </div>
+            </article>
+
+            <!-- O-IMMO -->
+            <article class="project-card flex-shrink-0 w-80 md:w-96 snap-start bg-gray-800/90 rounded-xl border border-sky-700/40 overflow-hidden backdrop-blur-sm">
+              <div class="project-visual h-44 mesh-dots bg-gradient-to-br from-sky-800 via-blue-950 to-gray-950 flex items-center justify-center">
+                <div class="text-center">
+                  <i class="fa-solid fa-house text-5xl text-sky-200/90 mb-2"></i>
+                  <p class="text-[10px] uppercase tracking-[0.2em] text-sky-100/70">Immo · Gabon</p>
+                </div>
+              </div>
+              <div class="p-6">
+                <div class="flex gap-2 mb-2 flex-wrap">
+                  <span class="text-[10px] uppercase tracking-wide bg-sky-900/50 text-sky-300 px-2 py-0.5 rounded">Perso · en cours</span>
+                  <span class="text-[10px] uppercase tracking-wide bg-gray-700 text-gray-300 px-2 py-0.5 rounded">Repo privé</span>
+                </div>
+                <h3 class="text-xl font-semibold text-white mb-2">O-IMMO</h3>
+                <p class="text-gray-400 text-sm mb-4 h-28 overflow-y-auto custom-scrollbar">App mobile de location / recherche d’appartements (Gabon, FCFA, multi-rôles). Projet personnel — pas encore livré en public.</p>
+                <p class="text-xs text-gray-500 mb-4">Mobile · produit · UX</p>
+                <a href="https://github.com/Orphee19/O-IMMO" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-bleu-vif hover:text-white text-sm">
+                  <i class="fa-brands fa-github"></i> Voir sur GitHub
+                </a>
+              </div>
+            </article>
+
+            <!-- Wazup -->
+            <article class="project-card flex-shrink-0 w-80 md:w-96 snap-start bg-gray-800/90 rounded-xl border border-gray-600 overflow-hidden backdrop-blur-sm">
+              <div class="project-visual h-44">
+                <img src="assets/image/wazup.png" alt="Aperçu Wazup e-commerce" class="w-full h-44 object-cover" />
+              </div>
+              <div class="p-6">
+                <span class="text-[10px] uppercase tracking-wide bg-gray-700 text-gray-300 px-2 py-0.5 rounded">Perso · public</span>
+                <h3 class="text-xl font-semibold text-white mb-2 mt-2">Wazup e-commerce</h3>
+                <p class="text-gray-400 text-sm mb-4 h-28 overflow-y-auto custom-scrollbar">Backend mobile e-commerce : API REST, auth, commandes / transactions. Focus serveur.</p>
+                <p class="text-xs text-gray-500 mb-4">Node.js · Express · JavaScript</p>
+                <a href="https://github.com/Orphee19/application-Wazup-e-commerce" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-bleu-vif hover:text-white text-sm">
+                  <i class="fa-brands fa-github"></i> Voir sur GitHub
+                </a>
+              </div>
+            </article>
+
+            <!-- Ilog -->
+            <article class="project-card flex-shrink-0 w-80 md:w-96 snap-start bg-gray-800/90 rounded-xl border border-gray-600 overflow-hidden backdrop-blur-sm">
+              <div class="project-visual h-44">
+                <img src="assets/image/Gestion.jpg" alt="Aperçu Ilogserveur" class="w-full h-44 object-cover" />
+              </div>
+              <div class="p-6">
+                <span class="text-[10px] uppercase tracking-wide bg-gray-700 text-gray-300 px-2 py-0.5 rounded">Perso · public</span>
+                <h3 class="text-xl font-semibold text-white mb-2 mt-2">Ilogserveur (ERP)</h3>
+                <p class="text-gray-400 text-sm mb-4 h-28 overflow-y-auto custom-scrollbar">Serveur C++ pour stocks, inventaire et RH ; client de test Python.</p>
+                <div class="flex flex-wrap gap-3 items-center">
+                  <button type="button" data-video-src="assets/video/ilog.mp4" class="text-bleu-vif text-sm hover:text-white">Démo <i class="fa-solid fa-play-circle"></i></button>
+                  <a href="https://github.com/Orphee19/OrpheeNgouessi/tree/main/Ilog_Server" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-bleu-vif text-sm hover:text-white"><i class="fa-brands fa-github"></i> GitHub</a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Energy -->
+            <article class="project-card flex-shrink-0 w-80 md:w-96 snap-start bg-gray-800/90 rounded-xl border border-gray-600 overflow-hidden backdrop-blur-sm">
+              <div class="project-visual h-44">
+                <img src="assets/image/IA.png" alt="Système énergétique" class="w-full h-44 object-cover" />
+              </div>
+              <div class="p-6">
+                <span class="text-[10px] uppercase tracking-wide bg-gray-700 text-gray-300 px-2 py-0.5 rounded">Perso · public</span>
+                <h3 class="text-xl font-semibold text-white mb-2 mt-2">Gestion énergétique intelligente</h3>
+                <p class="text-gray-400 text-sm mb-4 h-28 overflow-y-auto custom-scrollbar">Full-stack Flask/Python + ML pour anticiper production et consommation solaire.</p>
+                <div class="flex flex-wrap gap-3">
+                  <button type="button" data-video-src="assets/video/back-end.mp4" class="text-bleu-vif text-sm hover:text-white">Backend</button>
+                  <button type="button" data-video-src="assets/video/front-end.mp4" class="text-bleu-vif text-sm hover:text-white">Frontend</button>
+                  <a href="https://github.com/Orphee19/OrpheeNgouessi" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-bleu-vif text-sm hover:text-white"><i class="fa-brands fa-github"></i> GitHub</a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Carflow -->
+            <article class="project-card flex-shrink-0 w-80 md:w-96 snap-start bg-gray-800/90 rounded-xl border border-violet-700/40 overflow-hidden backdrop-blur-sm">
+              <div class="project-visual h-44 mesh-dots bg-gradient-to-br from-violet-800 via-purple-950 to-gray-950 flex items-center justify-center">
+                <i class="fa-solid fa-bus text-5xl text-violet-200/90"></i>
+              </div>
+              <div class="p-6">
+                <span class="text-[10px] uppercase tracking-wide bg-gray-700 text-gray-300 px-2 py-0.5 rounded">Perso · public</span>
+                <h3 class="text-xl font-semibold text-white mb-2 mt-2">Carflowser</h3>
+                <p class="text-gray-400 text-sm mb-4 h-28 overflow-y-auto custom-scrollbar">API transport &amp; paiement : abonnements, suivi véhicules. Serveur C++, client Python.</p>
+                <a href="https://github.com/Orphee19/OrpheeNgouessi/tree/main/Carflowserver" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-bleu-vif hover:text-white text-sm">
+                  <i class="fa-brands fa-github"></i> Voir sur GitHub
+                </a>
+              </div>
+            </article>
+
+          </div>
+          <button id="scroll-left-btn" type="button" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 bg-gray-700/90 p-3 rounded-full text-white shadow-lg hover:bg-bleu-vif hidden md:block z-20" aria-label="Projets précédents"><i class="fa-solid fa-chevron-left"></i></button>
+          <button id="scroll-right-btn" type="button" class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 bg-gray-700/90 p-3 rounded-full text-white shadow-lg hover:bg-bleu-vif hidden md:block z-20" aria-label="Projets suivants"><i class="fa-solid fa-chevron-right"></i></button>
         </div>
-        <button id="scroll-left-btn" type="button" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 bg-gray-700 p-3 rounded-full text-white shadow-lg hover:bg-bleu-vif hidden md:block" aria-label="Projets précédents"><i class="fa-solid fa-chevron-left"></i></button>
-        <button id="scroll-right-btn" type="button" class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 bg-gray-700 p-3 rounded-full text-white shadow-lg hover:bg-bleu-vif hidden md:block" aria-label="Projets suivants"><i class="fa-solid fa-chevron-right"></i></button>
       </div>
     </div>
   </section>
