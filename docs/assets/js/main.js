@@ -172,6 +172,8 @@
     body.append("_subject", payload.subject || "Nouveau message portfolio");
     body.append("_template", "table");
     body.append("_captcha", "false");
+    if (payload.email) body.append("_replyto", String(payload.email));
+    if (payload.name) body.append("_name", String(payload.name));
     const res = await fetch("https://formsubmit.co/ajax/" + encodeURIComponent(email), {
       method: "POST",
       body,
@@ -229,8 +231,10 @@
           name,
           email,
           message,
+          website: honey ? honey.value : "",
           subject: "Portfolio — message de " + name,
         });
+        formSuccess.textContent = "Message envoyé. Je vous répondrai par e-mail.";
         formSuccess.classList.remove("hidden");
         contactForm.reset();
         setTimeout(() => formSuccess.classList.add("hidden"), 5000);

@@ -15,7 +15,7 @@ Après activation Pages (source = branche `main` / dossier `/docs`) :
 ## Contenu (aligné NDA / droit du travail)
 
 - Employeur **Nexxus Gabon** cité clairement
-- Missions (CRM, TALI PVE, Kimba Connect / billetterie, tests sécu) décrites sans secrets ni logos clients
+- Missions (CRM, TALI / billetterie, WALI, tests sécu) décrites sans secrets ni logos clients
 - **O-IMMO** marqué *projet personnel — en cours*
 
 ## Développement local

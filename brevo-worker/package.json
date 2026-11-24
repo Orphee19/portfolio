@@ -1,0 +1,17 @@
+{
+  "name": "brevo-worker",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Proxy Brevo pour le portfolio (clé API hors front)",
+  "type": "module",
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "secret:brevo": "wrangler secret put BREVO_API_KEY",
+    "secret:to": "wrangler secret put TO_EMAIL",
+    "secret:from": "wrangler secret put FROM_EMAIL",
+    "tail": "wrangler tail"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}
